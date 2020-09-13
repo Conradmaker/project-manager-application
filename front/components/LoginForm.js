@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 
 export const Summary = styled.div`
   flex: 1;
-  padding-left: 40px;
+  padding: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -49,6 +49,7 @@ export const Btn = styled.button`
   color: rgb(180, 56, 138);
   outline: none;
   transition: all 0.3s;
+  cursor: pointer;
   &:hover {
     box-shadow: 0 3px 10px black;
     transform: translateY(-2px);

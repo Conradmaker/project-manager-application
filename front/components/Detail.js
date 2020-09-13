@@ -1,7 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import { CloseBtn } from "./PopForm";
-import { Btn } from "./LoginForm";
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
 
@@ -16,7 +15,7 @@ to{
 
 const DetailBox = styled.div`
   width: 40%;
-  height: 80%;
+  max-height: 90%;
   background: #fff;
   padding: 30px 40px;
   box-sizing: border-box;
@@ -67,7 +66,9 @@ const DetailContainer = styled.div`
 export default function Detail({ close }) {
   return (
     <DetailContainer>
-      <CloseBtn onClick={() => close(false)}>닫기</CloseBtn>
+      <CloseBtn white={true} onClick={() => close(false)}>
+        닫기
+      </CloseBtn>
       <DetailBox>
         <h1>
           프로젝트명: <b>디비디 바비디 부</b>
@@ -88,6 +89,9 @@ export default function Detail({ close }) {
           including versions of Lorem Ipsum.
         </span>
         <CommentForm />
+        <CommentItem />
+        <CommentItem />
+        <CommentItem />
         <CommentItem />
       </DetailBox>
     </DetailContainer>

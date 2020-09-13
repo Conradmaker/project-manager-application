@@ -31,9 +31,9 @@ const BottonBtn = styled.button`
   }
 `;
 
-export default function FixBtn() {
+export default function FixBtn({ open }) {
   return (
-    <BottonBtn>
+    <BottonBtn onClick={open}>
       <MdLightbulbOutline />
       등록
     </BottonBtn>

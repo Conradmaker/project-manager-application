@@ -1,6 +1,7 @@
 import React from "react";
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import LoginForm from "./LoginForm";
+import ProjectForm from "./ProjectForm";
 import SignupForm from "./SignupForm";
 
 const fade = keyframes`
@@ -21,8 +22,8 @@ to{
 `;
 
 const FormBox = styled.div`
-  width: 70%;
-  height: 80%;
+  min-width: 1000px;
+  max-height: 90%;
   background: #fff;
   display: flex;
 
@@ -57,16 +58,21 @@ export const CloseBtn = styled.button`
   outline: none;
   border: none;
   cursor: pointer;
+  ${(props) =>
+    props.white &&
+    css`
+      color: white;
+    `}
 `;
 
 export default function PopForm({ close, header, children }) {
   return (
     <FormContainer>
       <FormBox>
-        {header === "login" ? (
-          <LoginForm>{children}</LoginForm>
-        ) : (
-          <SignupForm>{children}</SignupForm>
+        {header === "login" && <LoginForm>{children}</LoginForm>}
+        {header === "signup" && <SignupForm>{children}</SignupForm>}
+        {header === "makeProject" && (
+          <ProjectForm close={close}>{children}</ProjectForm>
         )}
       </FormBox>
       <CloseBtn onClick={() => close(false)}>X</CloseBtn>

@@ -3,7 +3,6 @@ import styled, { css } from "styled-components";
 import { MdSearch } from "react-icons/md";
 import { VscSearch } from "react-icons/vsc";
 import Link from "next/link";
-import LoginForm from "./LoginForm";
 import PopForm from "./PopForm";
 
 const Search = styled.div`

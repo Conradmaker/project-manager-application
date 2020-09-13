@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import IMG from "../assets/img/3.png";
 import { Positioner, Visual } from "../components/Banner";
 import Layout from "../components/Layout";
@@ -7,6 +7,7 @@ import { bling } from "./about";
 import { ImArrowDown2 } from "react-icons/im";
 import ListItem from "../components/ListItem";
 import FixBtn from "../components/FixBtn";
+import PopForm from "../components/PopForm";
 
 const ItemContainer = styled.ul`
   display: grid;
@@ -36,6 +37,11 @@ const ListBanner = styled(Visual)`
 `;
 
 export default function List() {
+  const [open, setOpen] = useState(false);
+  const onOpen = useCallback(() => {
+    setOpen(!open);
+    console.log(open);
+  }, []);
   return (
     <Layout>
       <Positioner />
@@ -59,7 +65,8 @@ export default function List() {
           <ListItem />
         </ItemContainer>
       </Lists>
-      <FixBtn />
+      <FixBtn open={onOpen} />
+      {open && <PopForm header="makeProject" close={setOpen} />}
     </Layout>
   );
 }
