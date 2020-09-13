@@ -1,0 +1,20 @@
+{
+  "name": "project-manager-app-front",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "author": "conrad",
+  "scripts": {
+    "dev": "yarn next"
+  },
+  "dependencies": {
+    "babel-plugin-styled-components": "^1.11.1",
+    "file-loader": "^6.1.0",
+    "next": "^9.5.3",
+    "next-images": "^1.4.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-icons": "^3.11.0",
+    "styled-components": "^5.2.0"
+  }
+}
