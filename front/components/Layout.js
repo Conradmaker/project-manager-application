@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { MdSearch } from "react-icons/md";
 import { VscSearch } from "react-icons/vsc";
@@ -97,10 +97,9 @@ const TopHeader = styled.nav`
   align-items: center;
 
   div {
-    color: #fff;
+    color: rgb(30, 66, 148);
     font-size: 33px;
     font-weight: bold;
-    text-shadow: 0 0 1px rgb(30, 66, 148);
   }
   ul {
     display: flex;
@@ -114,7 +113,6 @@ const TopHeader = styled.nav`
       display: flex;
       align-items: center;
       transition: all 0.3s ease;
-      text-shadow: 0 0 1px rgb(30, 66, 148);
       cursor: pointer;
       &:hover {
         transform: translateY(-3px);
@@ -139,6 +137,18 @@ const TopHeader = styled.nav`
       }
     }
   }
+  ${(props) =>
+    props.color &&
+    css`
+      transition: all 0.3s;
+
+      ul li {
+        color: rgb(30, 66, 148);
+        i {
+          background: rgb(30, 66, 148);
+        }
+      }
+    `}
 `;
 const Header = styled.header`
   width: 100vw;
@@ -152,6 +162,13 @@ const Header = styled.header`
   right: 0;
 
   z-index: 10;
+
+  transition: all 0.3s;
+  ${(props) =>
+    props.color &&
+    css`
+      background: #fff;
+    `}
 `;
 
 export default function Layout({ children }) {
@@ -167,10 +184,22 @@ export default function Layout({ children }) {
   const onChangeOpen = () => {
     setSearchOpen(!searchOpen);
   };
+  const [color, setColor] = useState(false);
+  useEffect(() => {
+    function onScroll() {
+      if (window.pageYOffset > 700) {
+        setColor(true);
+      } else {
+        setColor(false);
+      }
+      console.log(window.pageYOffset);
+    }
+    window.addEventListener("scroll", onScroll);
+  }, []);
   return (
     <>
-      <Header>
-        <TopHeader>
+      <Header color={color}>
+        <TopHeader color={color}>
           <Link href="/">
             <a>
               <div>Project</div>
