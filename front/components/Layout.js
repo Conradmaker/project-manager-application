@@ -169,9 +169,15 @@ const Header = styled.header`
     css`
       background: #fff;
     `}
+  ${(props) =>
+    props.visible &&
+    css`
+      opacity: 0;
+      z-index: 0;
+    `}
 `;
 
-export default function Layout({ children }) {
+export default function Layout({ visible, children }) {
   const [loginOpen, setLoginOpen] = useState(false);
   const onLoginOpen = useCallback(() => {
     setLoginOpen(!loginOpen);
@@ -198,7 +204,7 @@ export default function Layout({ children }) {
   }, []);
   return (
     <>
-      <Header color={color}>
+      <Header visible={visible} color={color}>
         <TopHeader color={color}>
           <Link href="/">
             <a>

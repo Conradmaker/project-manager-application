@@ -3,6 +3,7 @@ import styled, { css, keyframes } from "styled-components";
 import LoginForm from "./LoginForm";
 import ProjectForm from "./ProjectForm";
 import SignupForm from "./SignupForm";
+import AddScheule from "./DashBoard/AddSchedule";
 
 const fade = keyframes`
 from{
@@ -73,6 +74,9 @@ export default function PopForm({ close, header, children }) {
         {header === "signup" && <SignupForm>{children}</SignupForm>}
         {header === "makeProject" && (
           <ProjectForm close={close}>{children}</ProjectForm>
+        )}
+        {header === "calender" && (
+          <AddScheule close={close}>{children}</AddScheule>
         )}
       </FormBox>
       <CloseBtn onClick={() => close(false)}>X</CloseBtn>

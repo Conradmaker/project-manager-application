@@ -5,7 +5,7 @@ import { FaTools } from "react-icons/fa";
 import { RiTeamFill } from "react-icons/ri";
 import Link from "next/link";
 
-const BtnWrapper = styled.div`
+export const BtnWrapper = styled.div`
   position: absolute;
   bottom: 50px;
   left: 0;
@@ -53,7 +53,7 @@ export const Visual = styled.div`
   background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
-  position: relative;
+  align-items: center;
 
   h1 {
     margin-top: 160px;
@@ -82,7 +82,7 @@ export default function Banner() {
               </div>
             </a>
           </Link>
-          <Link href="">
+          <Link href="/project/1">
             <a>
               <div>
                 <i>

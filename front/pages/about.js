@@ -13,8 +13,8 @@ import {
 } from "react-icons/im";
 
 export const bling = keyframes`
- 0% { height: 100px; width: 100px; }
- 100% { height: 50px; width: 100px; opacity: 0.6; }
+ 0% { height: 50px; width: 100px; }
+ 100% { height: 30px; width: 100px; opacity: 0.6; }
 `;
 
 const Solution = styled.div`

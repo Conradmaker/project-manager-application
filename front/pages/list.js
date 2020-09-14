@@ -8,6 +8,7 @@ import { ImArrowDown2 } from "react-icons/im";
 import ListItem from "../components/ListItem";
 import FixBtn from "../components/FixBtn";
 import PopForm from "../components/PopForm";
+import { MainContainer } from "./index";
 
 const ItemContainer = styled.ul`
   display: grid;
@@ -24,16 +25,17 @@ const Lists = styled.section`
   }
 `;
 
-const ListBanner = styled(Visual)`
+export const ListBanner = styled(Visual)`
   height: 90vh;
   background-image: url(${IMG});
-  i {
-    position: absolute;
-    bottom: 80px;
-    left: 50%;
-    font-size: 30px;
-    animation: ${bling} 1s ease-in-out alternate infinite;
-  }
+`;
+
+export const DownIcon = styled.i`
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  font-size: 30px;
+  animation: ${bling} 1s ease-in-out alternate infinite;
 `;
 
 export default function List() {
@@ -44,13 +46,15 @@ export default function List() {
   }, []);
   return (
     <Layout>
-      <Positioner />
-      <ListBanner>
-        <h1>청춘은 인생의 황금시대다</h1>
-        <i>
+      <MainContainer>
+        <Positioner />
+        <ListBanner>
+          <h1>청춘은 인생의 황금시대다</h1>
+        </ListBanner>
+        <DownIcon>
           <ImArrowDown2 />
-        </i>
-      </ListBanner>
+        </DownIcon>
+      </MainContainer>
       <Lists>
         <h1>취업용 프로젝트</h1>
         <ItemContainer>
