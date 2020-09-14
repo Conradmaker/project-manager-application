@@ -20,6 +20,10 @@ export const Summary = styled.div`
     margin-bottom: 10px;
     color: rgb(200, 66, 148);
   }
+  h3 {
+    font-size: 30px;
+    color: rgb(30, 66, 148);
+  }
 `;
 
 export const BtnBox = styled.div`

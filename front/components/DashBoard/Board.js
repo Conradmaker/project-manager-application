@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import BoardItem from "./BoardItem";
 import { TodoListBlock } from "./TodoList";
 import { AddBtn } from "./Calender";
+import PopForm from "../PopForm";
 
 export const BoardTitle = styled.h1`
   font-size: 20px;
@@ -25,6 +26,7 @@ const data = {
   username: "conrad",
 };
 export default function Board() {
+  const [addopen, setAddopen] = useState(false);
   return (
     <DashBBoard>
       <BoardTitle>게시판</BoardTitle>
@@ -32,7 +34,8 @@ export default function Board() {
         <BoardItem data={data} />
         <BoardItem data={data} />
       </TodoListBlock>
-      <AddBtn>Add</AddBtn>
+      <AddBtn onClick={() => setAddopen(true)}>Add</AddBtn>
+      {addopen && <PopForm header="board" close={setAddopen} />}
     </DashBBoard>
   );
 }

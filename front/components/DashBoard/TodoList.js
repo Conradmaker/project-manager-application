@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { BoardTitle } from "./Board";
 import TodoItem from "./TotoItem";
 import { AddBtn } from "./Calender";
+import PopForm from "../PopForm";
 export const TodoListBlock = styled.div`
   flex: 1;
   padding: 20px 0;
@@ -17,6 +18,7 @@ const DashBTodo = styled.div`
   position: relative;
 `;
 export default function TodoList() {
+  const [addopen, setAddopen] = useState(false);
   return (
     <DashBTodo>
       <BoardTitle>오늘의 할일</BoardTitle>
@@ -30,7 +32,8 @@ export default function TodoList() {
         <TodoItem text="Context 만들기" done={false} />
         <TodoItem text="기능 구현하기" done={false} />
       </TodoListBlock>
-      <AddBtn>Add</AddBtn>
+      <AddBtn onClick={() => setAddopen(true)}>Add</AddBtn>
+      {addopen && <PopForm header="todo" close={setAddopen} />}
     </DashBTodo>
   );
 }

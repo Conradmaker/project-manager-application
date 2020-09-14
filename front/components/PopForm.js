@@ -4,6 +4,8 @@ import LoginForm from "./LoginForm";
 import ProjectForm from "./ProjectForm";
 import SignupForm from "./SignupForm";
 import AddScheule from "./DashBoard/AddSchedule";
+import TodoForm from "./DashBoard/TodoForm";
+import BoardForm from "./DashBoard/BoardForm";
 
 const fade = keyframes`
 from{
@@ -13,7 +15,7 @@ to{
   opacity:1;
 }
 `;
-const slide = keyframes`
+const slideUp = keyframes`
 from{
   transform: translateY(1000px)
 }
@@ -21,12 +23,26 @@ to{
   transform: translateY(0px)
 }
 `;
-
+const slide = keyframes`
+from{
+  transform: translateX(1000px)
+}
+to{
+  transform: translateX(0px)
+}
+`;
 const FormBox = styled.div`
   min-width: 1000px;
   max-height: 90%;
   background: #fff;
   display: flex;
+
+  animation: ${slideUp} 0.3s ease-in;
+`;
+const SmallBox = styled.div`
+  max-width: 1000px;
+  max-height: 90%;
+  background: #fff;
 
   animation: ${slide} 0.3s ease-in;
 `;
@@ -48,11 +64,11 @@ const FormContainer = styled.div`
 `;
 
 export const CloseBtn = styled.button`
-  font-size: 50px;
+  font-size: 30px;
   color: white;
 
   position: absolute;
-  top: 20px;
+  top: 10px;
   right: 20px;
 
   background: none;
@@ -75,10 +91,22 @@ export default function PopForm({ close, header, children }) {
         {header === "makeProject" && (
           <ProjectForm close={close}>{children}</ProjectForm>
         )}
-        {header === "calender" && (
-          <AddScheule close={close}>{children}</AddScheule>
-        )}
       </FormBox>
+      {header === "calender" && (
+        <SmallBox>
+          <AddScheule close={close}>{children}</AddScheule>
+        </SmallBox>
+      )}
+      {header === "todo" && (
+        <SmallBox>
+          <TodoForm close={close}>{children}</TodoForm>
+        </SmallBox>
+      )}
+      {header === "board" && (
+        <SmallBox>
+          <BoardForm close={close}>{children}</BoardForm>
+        </SmallBox>
+      )}
       <CloseBtn onClick={() => close(false)}>X</CloseBtn>
     </FormContainer>
   );

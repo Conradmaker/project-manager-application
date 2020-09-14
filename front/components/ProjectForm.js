@@ -20,10 +20,8 @@ export default function ProjectForm({ close }) {
         <Input name="name" type="text" />
         <label htmlFor="genre">종류</label>
         <div style={{ marginBottom: "10px" }}>
-          <input type="radio" name="genre" />
-          <label htmlFor="grad" value="취업">
-            취업용
-          </label>
+          <input type="radio" name="genre" value="취업" />
+          <label htmlFor="grad">취업용</label>
           <input type="radio" name="genre" value="사이드" />
           <label htmlFor="grad">사이드</label>
           <input type="radio" name="genre" value="토이" />

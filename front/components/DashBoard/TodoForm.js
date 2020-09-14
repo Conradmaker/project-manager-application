@@ -5,18 +5,14 @@ export default function SignupForm({ close }) {
   return (
     <>
       <Summary>
-        <h3>일정등록</h3>
+        <h3>할일추가</h3>
       </Summary>
       <Form>
-        <label htmlFor="title">타이틀</label>
+        <label htmlFor="title">할일</label>
         <Input name="title" type="text" />
-        <label htmlFor="start">시작일</label>
-        <Input type="date" name="start" />
-        <label htmlFor="end">종료일</label>
-        <Input type="date" name="end" />
         <BtnBox>
           <div>
-            <span>일정을 등록할까요?</span>
+            <span>오늘할일을 등록할까요?</span>
             <Btn>등록</Btn>
           </div>
           <div>
