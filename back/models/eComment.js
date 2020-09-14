@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const EComments = sequelize.define(
-    "EComments",
+  const EComment = sequelize.define(
+    "EComment",
     {
       content: { type: DataTypes.TEXT, allowNull: false },
     },
@@ -10,6 +10,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  EComments.associate = (db) => {};
-  return EComments;
+  EComment.associate = (db) => {
+    db.EComment.belongsTo(db.User);
+    db.EComment.belongsToMany(db.EBoard, { through: "EmployeComment" });
+  };
+  return EComment;
 };

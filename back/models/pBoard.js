@@ -5,6 +5,9 @@ module.exports = (sequelize, DataTypes) => {
     kind: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
   });
 
-  PBoard.associate = (db) => {};
+  PBoard.associate = (db) => {
+    db.PBoard.belongsTo(db.User);
+    db.PBoard.belongsToMany(db.Project, { through: "ProjectBoard" });
+  };
   return PBoard;
 };

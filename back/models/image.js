@@ -3,6 +3,8 @@ module.exports = (sequelize, DataTypes) => {
     src: { type: DataTypes.STRING(200), allowNull: false },
   });
 
-  Image.associate = (db) => {};
+  Image.associate = (db) => {
+    db.Image.belongsTo(db.Project);
+  };
   return Image;
 };

@@ -5,6 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     endAt: { type: DataTypes.DATE, allowNull: false },
   });
 
-  Schedule.associate = (db) => {};
+  Schedule.associate = (db) => {
+    db.Schedule.belongsTo(db.Project);
+  };
   return Schedule;
 };

@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const Eboard = sequelize.define(
-    "Eboard",
+  const EBoard = sequelize.define(
+    "EBoard",
     {
       content: { type: DataTypes.TEXT, allowNull: false },
     },
@@ -10,6 +10,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Eboard.associate = (db) => {};
-  return Eboard;
+  EBoard.associate = (db) => {
+    db.EBoard.belongsTo(db.Project);
+    db.EBoard.belongsToMany(db.EComment, { through: "EmployeComment" });
+  };
+  return EBoard;
 };
