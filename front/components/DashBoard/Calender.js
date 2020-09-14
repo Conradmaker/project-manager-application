@@ -31,7 +31,6 @@ export const AddBtn = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-
   &:hover {
     background: rgb(60, 86, 188);
   }

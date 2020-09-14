@@ -20,6 +20,7 @@ export default function SignupForm() {
         <Input type="password" name="password-check" />
         <BtnBox>
           <div>
+            <span style={{ color: "red" }}>비밀번호가 다릅니다.</span>
             <Btn>회원가입</Btn>
           </div>
           <div>
