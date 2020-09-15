@@ -4,6 +4,9 @@ import { MdSearch } from "react-icons/md";
 import { VscSearch } from "react-icons/vsc";
 import Link from "next/link";
 import PopForm from "./PopForm";
+import useInput from "../hooks/useInput";
+import { useDispatch, useSelector } from "react-redux";
+import { LOG_OUT_REQUEST } from "../reducers/user";
 
 const Search = styled.div`
   width: 1100px;
@@ -178,6 +181,8 @@ const Header = styled.header`
 `;
 
 export default function Layout({ visible, children }) {
+  const dispatch = useDispatch();
+  const { me } = useSelector((state) => state.user);
   const [loginOpen, setLoginOpen] = useState(false);
   const onLoginOpen = useCallback(() => {
     setLoginOpen(!loginOpen);
@@ -191,6 +196,8 @@ export default function Layout({ visible, children }) {
     setSearchOpen(!searchOpen);
   };
   const [color, setColor] = useState(false);
+  const [search, onChange] = useInput("");
+  const onLogout = () => dispatch({ type: LOG_OUT_REQUEST });
   useEffect(() => {
     function onScroll() {
       if (window.pageYOffset > 700) {
@@ -212,14 +219,29 @@ export default function Layout({ visible, children }) {
             </a>
           </Link>
           <ul>
-            <li onClick={onLoginOpen}>
-              <i></i>
-              <span>Login</span>
-            </li>
-            <li onClick={onSignupOpen}>
-              <i></i>
-              <span>Signup</span>
-            </li>
+            {!me ? (
+              <>
+                <li onClick={onLoginOpen}>
+                  <i></i>
+                  <span>Login</span>
+                </li>
+                <li onClick={onSignupOpen}>
+                  <i></i>
+                  <span>Signup</span>
+                </li>
+              </>
+            ) : (
+              <>
+                <li onClick={onLogout}>
+                  <i></i>
+                  <span>LogOut</span>
+                </li>
+                <li onClick={onSignupOpen}>
+                  <i></i>
+                  <span>{me.nickname}님</span>
+                </li>
+              </>
+            )}
             <Link href="/about">
               <a>
                 <li>
@@ -265,7 +287,7 @@ export default function Layout({ visible, children }) {
         <Search open={searchOpen}>
           <h1>어떤 팀을 찾고있나요?</h1>
           <form>
-            <input type="text" />
+            <input type="text" value={search} onChange={onChange} />
             <button>
               <VscSearch />
             </button>
@@ -273,8 +295,8 @@ export default function Layout({ visible, children }) {
         </Search>
       </Header>
       {children}
-      {loginOpen && <PopForm closeLogin={setLoginOpen} header="login" />}
-      {signupOpen && <PopForm closeSign={setSignupOpen} header="signup" />}
+      {loginOpen && <PopForm close={setLoginOpen} header="login" />}
+      {signupOpen && <PopForm close={setSignupOpen} header="signup" />}
     </>
   );
 }

@@ -1,6 +1,8 @@
-import React from "react";
-import PopForm from "./PopForm";
+import React, { useCallback, useEffect } from "react";
 import styled, { css } from "styled-components";
+import useInput from "../hooks/useInput";
+import { useDispatch, useSelector } from "react-redux";
+import { LOG_IN_REQUEST } from "../reducers/user";
 
 export const Summary = styled.div`
   flex: 1;
@@ -25,7 +27,6 @@ export const Summary = styled.div`
     color: rgb(30, 66, 148);
   }
 `;
-
 export const BtnBox = styled.div`
   div {
     display: flex;
@@ -79,7 +80,7 @@ export const Input = styled.input`
   font-size: 20px;
   border-radius: 5px;
 `;
-export const Form = styled.div`
+export const Form = styled.form`
   flex: 1.3;
   background: #2f303a;
   padding: 40px;
@@ -95,7 +96,23 @@ export const Form = styled.div`
   }
 `;
 
-export default function LoginForm() {
+export default function LoginForm({ close }) {
+  const [email, onChangeEmail] = useInput("");
+  const [password, onChangePassword] = useInput("");
+  const { logInDone } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch({ type: LOG_IN_REQUEST, data: { email, password } });
+    },
+    [email, password]
+  );
+  useEffect(() => {
+    if (logInDone) {
+      close(false);
+    }
+  }, [logInDone]);
   return (
     <>
       <Summary>
@@ -103,18 +120,30 @@ export default function LoginForm() {
         <h2>프로젝트를 위한 첫걸음</h2>
         <h2>우리와 함께해줘서 고마워요</h2>
       </Summary>
-      <Form>
+      <Form onSubmit={onSubmit}>
         <label htmlFor="email">E-MAIL</label>
-        <Input name="email" type="text" />{" "}
+        <Input
+          name="email"
+          type="text"
+          value={email}
+          onChange={onChangeEmail}
+        />
         <label htmlFor="password">PASSWORD</label>
-        <Input type="password" name="password" />
+        <Input
+          type="password"
+          name="password"
+          value={password}
+          onChange={onChangePassword}
+        />
         <BtnBox>
           <div>
-            <Btn>로그인</Btn>
+            <Btn type="submit">로그인</Btn>
           </div>
           <div>
-            <span>아직 회원이 아니신가요?</span>
-            <Btn outline>회원가입</Btn>
+            <span>회원이 아니신가요?</span>
+            <Btn onClick={() => close(false)} outline>
+              닫기
+            </Btn>
           </div>
         </BtnBox>
       </Form>

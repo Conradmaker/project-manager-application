@@ -86,8 +86,8 @@ export default function SignupForm({ close }) {
           </div>
           <div>
             <span>이미 회원이신가요?</span>
-            <Btn outline onClick={() => close(true)}>
-              로그인
+            <Btn outline onClick={() => close(false)}>
+              닫기
             </Btn>
           </div>
         </BtnBox>

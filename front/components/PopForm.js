@@ -43,7 +43,6 @@ const SmallBox = styled.div`
   max-width: 1000px;
   max-height: 90%;
   background: #fff;
-
   animation: ${slide} 0.3s ease-in;
 `;
 
@@ -82,21 +81,13 @@ export const CloseBtn = styled.button`
     `}
 `;
 
-export default function PopForm({
-  close,
-  closeSign,
-  closeLogin,
-  header,
-  children,
-}) {
+export default function PopForm({ close, header, children }) {
   return (
     <FormContainer>
       <FormBox>
-        {header === "login" && (
-          <LoginForm close={closeSign}>{children}</LoginForm>
-        )}
+        {header === "login" && <LoginForm close={close}>{children}</LoginForm>}
         {header === "signup" && (
-          <SignupForm close={closeLogin}>{children}</SignupForm>
+          <SignupForm close={close}>{children}</SignupForm>
         )}
         {header === "makeProject" && (
           <ProjectForm close={close}>{children}</ProjectForm>

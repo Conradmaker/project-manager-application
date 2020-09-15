@@ -6,6 +6,10 @@ export const LOG_IN_REQUEST = "user/LOG_IN_REQUEST";
 export const LOG_IN_SUCCESS = "user/LOG_IN_SUCCESS";
 export const LOG_IN_ERROR = "user/LOG_IN_ERROR";
 
+export const LOG_OUT_REQUEST = "user/LOG_OUT_REQUEST";
+export const LOG_OUT_SUCCESS = "user/LOG_OUT_SUCCESS";
+export const LOG_OUT_ERROR = "user/LOG_OUT_ERROR";
+
 const initialState = {
   signUpLoading: false,
   signUpDone: false,
@@ -14,6 +18,10 @@ const initialState = {
   logInLoading: false,
   logInDone: false,
   logInError: false,
+
+  logOutLoading: false,
+  logOutDone: false,
+  logOutError: false,
 
   me: null,
 };
@@ -63,6 +71,29 @@ export default function user(state = initialState, action) {
         logInLoading: false,
         logInDone: false,
         logInError: action.error,
+      };
+    case LOG_OUT_REQUEST:
+      return {
+        ...state,
+        logOutLoading: true,
+        logOutDone: false,
+        logOutError: false,
+      };
+    case LOG_OUT_SUCCESS:
+      return {
+        ...state,
+        logOutLoading: false,
+        logOutDone: true,
+        logInDone: false,
+        logOutError: false,
+        me: null,
+      };
+    case LOG_OUT_ERROR:
+      return {
+        ...state,
+        logOutLoading: false,
+        logOutDone: false,
+        logOutError: action.error,
       };
     default:
       return state;
