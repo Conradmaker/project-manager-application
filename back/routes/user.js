@@ -56,7 +56,7 @@ router.post("/signup", isNotLoggedIn, async (req, res, next) => {
 });
 
 //로그아웃
-router.post("/logout", (req, res) => {
+router.post("/logout", isLoggedIn, (req, res) => {
   console.log(1);
   req.logout();
   console.log(2);

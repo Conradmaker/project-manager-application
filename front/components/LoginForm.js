@@ -79,6 +79,7 @@ export const Input = styled.input`
   margin-bottom: 20px;
   font-size: 20px;
   border-radius: 5px;
+  text-align: center;
 `;
 export const Form = styled.form`
   flex: 1.3;
@@ -99,7 +100,7 @@ export const Form = styled.form`
 export default function LoginForm({ close }) {
   const [email, onChangeEmail] = useInput("");
   const [password, onChangePassword] = useInput("");
-  const { logInDone } = useSelector((state) => state.user);
+  const { logInDone, logInError } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const onSubmit = useCallback(
     (e) => {
@@ -109,10 +110,13 @@ export default function LoginForm({ close }) {
     [email, password]
   );
   useEffect(() => {
+    if (logInError) {
+      alert(logInError);
+    }
     if (logInDone) {
       close(false);
     }
-  }, [logInDone]);
+  }, [logInDone, logInError]);
   return (
     <>
       <Summary>

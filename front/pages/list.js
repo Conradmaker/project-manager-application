@@ -9,6 +9,7 @@ import ListItem from "../components/ListItem";
 import FixBtn from "../components/FixBtn";
 import PopForm from "../components/PopForm";
 import { MainContainer } from "./index";
+import { useSelector } from "react-redux";
 
 const ItemContainer = styled.ul`
   display: grid;
@@ -39,11 +40,13 @@ export const DownIcon = styled.i`
 `;
 
 export default function List() {
+  const { me } = useSelector((state) => state.user);
   const [open, setOpen] = useState(false);
   const onOpen = useCallback(() => {
+    if (!me) return alert("로그인이 필요합니다.");
+
     setOpen(!open);
-    console.log(open);
-  }, []);
+  }, [me]);
   return (
     <Layout>
       <MainContainer>

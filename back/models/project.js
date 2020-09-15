@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     kind: { type: DataTypes.INTEGER, allowNull: false },
     progress: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
     leader: { type: DataTypes.INTEGER, allowNull: false },
+    number: { type: DataTypes.INTEGER, allowNull: false },
   });
   Project.associate = (db) => {
     db.Project.hasMany(db.User);

@@ -41,7 +41,6 @@ export default function user(state = initialState, action) {
         signUpLoading: false,
         signUpDone: true,
         signUpError: false,
-        me: action.data,
       };
     case SIGN_UP_ERROR:
       return {

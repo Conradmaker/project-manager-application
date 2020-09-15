@@ -8,6 +8,7 @@ const passport = require("passport");
 const passportConfig = require("./passport");
 
 const userRouter = require("./routes/user");
+const projectRouter = require("./routes/project");
 const db = require("./models");
 dotenv.config();
 const app = express();
@@ -47,6 +48,7 @@ app.get("/", (req, res) => {
   res.send("asd");
 });
 app.use("/user", userRouter);
+app.use("/project", projectRouter);
 
 app.listen(3030, () => {
   console.log("3030포트에서 실행");
