@@ -82,12 +82,22 @@ export const CloseBtn = styled.button`
     `}
 `;
 
-export default function PopForm({ close, header, children }) {
+export default function PopForm({
+  close,
+  closeSign,
+  closeLogin,
+  header,
+  children,
+}) {
   return (
     <FormContainer>
       <FormBox>
-        {header === "login" && <LoginForm>{children}</LoginForm>}
-        {header === "signup" && <SignupForm>{children}</SignupForm>}
+        {header === "login" && (
+          <LoginForm close={closeSign}>{children}</LoginForm>
+        )}
+        {header === "signup" && (
+          <SignupForm close={closeLogin}>{children}</SignupForm>
+        )}
         {header === "makeProject" && (
           <ProjectForm close={close}>{children}</ProjectForm>
         )}

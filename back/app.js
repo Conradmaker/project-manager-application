@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
+const cors = require("cors");
 
 const userRouter = require("./routes/user");
 const db = require("./models");
@@ -13,6 +14,9 @@ db.sequelize
   .catch(console.error("연결실패"));
 
 dotenv.config();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(morgan("dev"));
 
 app.get("/", (req, res) => {

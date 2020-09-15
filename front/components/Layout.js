@@ -138,7 +138,7 @@ const TopHeader = styled.nav`
     }
   }
   ${(props) =>
-    props.color &&
+    props.colors &&
     css`
       transition: all 0.3s;
 
@@ -165,7 +165,7 @@ const Header = styled.header`
 
   transition: all 0.3s;
   ${(props) =>
-    props.color &&
+    props.colors &&
     css`
       background: #fff;
     `}
@@ -204,8 +204,8 @@ export default function Layout({ visible, children }) {
   }, []);
   return (
     <>
-      <Header visible={visible} color={color}>
-        <TopHeader color={color}>
+      <Header visible={visible} colors={color}>
+        <TopHeader colors={color}>
           <Link href="/">
             <a>
               <div>Project</div>
@@ -273,8 +273,8 @@ export default function Layout({ visible, children }) {
         </Search>
       </Header>
       {children}
-      {loginOpen && <PopForm close={setLoginOpen} header="login" />}
-      {signupOpen && <PopForm close={setSignupOpen} header="signup" />}
+      {loginOpen && <PopForm closeLogin={setLoginOpen} header="login" />}
+      {signupOpen && <PopForm closeSign={setSignupOpen} header="signup" />}
     </>
   );
 }
