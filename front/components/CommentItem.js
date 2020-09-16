@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import { MdAddCircle, MdRemoveCircle } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { REMOVE_COMMENT_REQUEST } from "../reducers/project";
 
 const CommentCard = styled.article`
   position: relative;
@@ -31,7 +32,11 @@ const CommentCard = styled.article`
 `;
 
 export default function CommentItem({ data, leader }) {
+  const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
+  const onRemoveComment = useCallback(() => {
+    dispatch({ type: REMOVE_COMMENT_REQUEST, data: data.id });
+  }, [dispatch]);
   return (
     <CommentCard>
       <h1>{data.User.nickname}</h1>
@@ -41,7 +46,10 @@ export default function CommentItem({ data, leader }) {
         <i>
           {leader === me.id && me.id !== data.id && <MdAddCircle />}
           {data.User.id === me.id && (
-            <MdRemoveCircle style={{ color: "red" }} />
+            <MdRemoveCircle
+              style={{ color: "red" }}
+              onClick={onRemoveComment}
+            />
           )}
         </i>
       )}

@@ -70,7 +70,7 @@ export default function Banner() {
     <div>
       <Positioner />
       <Visual>
-        <h1>모시기 저시기 하나둘셋넷</h1>
+        <h1>내일은 뭐할까</h1>
         <BtnWrapper>
           <Link href="/list">
             <a>

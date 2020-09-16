@@ -48,6 +48,7 @@ router.post("/create", isLoggedIn, async (req, res, next) => {
   }
 });
 
+//댓글달기
 router.post("/comment/:postId", isLoggedIn, async (req, res, next) => {
   try {
     const post = await EBoard.findOne({
@@ -72,6 +73,23 @@ router.post("/comment/:postId", isLoggedIn, async (req, res, next) => {
   }
 });
 
+//댓글삭제
+router.delete("/delete/:commentId", isLoggedIn, async (req, res, next) => {
+  try {
+    const { EBoardId } = await EComment.findOne({
+      where: { id: parseInt(req.params.commentId, 10) },
+    });
+    await EComment.destroy({
+      where: { id: req.params.commentId, UserId: req.user.id },
+    });
+    res
+      .status(200)
+      .json({ CommentId: parseInt(req.params.commentId, 10), EBoardId });
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
 router.use("/load", loadRouter);
 
 module.exports = router;

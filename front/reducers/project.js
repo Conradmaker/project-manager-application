@@ -12,6 +12,10 @@ export const ADD_COMMENT_REQUEST = "project/ADD_COMMENT_REQUEST";
 export const ADD_COMMENT_SUCCESS = "project/ADD_COMMENT_SUCCESS";
 export const ADD_COMMENT_ERROR = "project/ADD_COMMENT_ERROR";
 
+export const REMOVE_COMMENT_REQUEST = "project/REMOVE_COMMENT_REQUEST";
+export const REMOVE_COMMENT_SUCCESS = "project/REMOVE_COMMENT_SUCCESS";
+export const REMOVE_COMMENT_ERROR = "project/REMOVE_COMMENT_ERROR";
+
 const initialState = {
   createProjectLoading: false,
   createProjectDone: false,
@@ -24,6 +28,10 @@ const initialState = {
   addCommentLoading: false,
   addCommentDone: false,
   addCommentError: false,
+
+  removeCommentLoading: false,
+  removeCommentDone: false,
+  removeCommentError: false,
 
   projectList: [],
 };
@@ -73,7 +81,6 @@ const project = (state = initialState, action) =>
         const item = draft.projectList.find(
           (v) => action.data.EBoardId === v.id
         );
-        console.log(item);
         item.EComments.push(action.data);
         draft.addCommentLoading = false;
         draft.addCommentDone = true;
@@ -83,6 +90,27 @@ const project = (state = initialState, action) =>
         draft.addCommentLoading = false;
         draft.addCommentDone = false;
         draft.addCommentError = action.error;
+        break;
+      case REMOVE_COMMENT_REQUEST:
+        draft.removeCommentLoading = true;
+        draft.removeCommentDone = false;
+        draft.removeCommentError = false;
+        break;
+      case REMOVE_COMMENT_SUCCESS:
+        const i = draft.projectList.findIndex(
+          (v) => action.data.EBoardId === v.id
+        );
+        draft.projectList[i].EComments = draft.projectList[i].EComments.filter(
+          (v) => v.id !== action.data.CommentId
+        );
+        draft.removeCommentLoading = false;
+        draft.removeCommentDone = true;
+        draft.removeCommentError = false;
+        break;
+      case REMOVE_COMMENT_ERROR:
+        draft.removeCommentLoading = false;
+        draft.removeCommentDone = false;
+        draft.removeCommentError = action.error;
         break;
       default:
         break;
