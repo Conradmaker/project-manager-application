@@ -34,7 +34,7 @@ export default function CommentItem({ data, leader }) {
   const { me } = useSelector((state) => state.user);
   return (
     <CommentCard>
-      <h1>-{data.User.nickname}</h1>
+      <h1>{data.User.nickname}</h1>
       <p>{data.createdAt}</p>
       <span>{data.content}</span>
       {me && (
