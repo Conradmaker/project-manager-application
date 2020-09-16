@@ -63,7 +63,7 @@ const DetailContainer = styled.div`
   animation: ${slide} 0.6s ease;
 `;
 
-export default function Detail({ close }) {
+export default function Detail({ close, data }) {
   return (
     <DetailContainer>
       <CloseBtn white={true} onClick={() => close(false)}>
@@ -71,23 +71,13 @@ export default function Detail({ close }) {
       </CloseBtn>
       <DetailBox>
         <h1>
-          프로젝트명: <b>디비디 바비디 부</b>
+          프로젝트명: <b>{data.Project.name}</b>
         </h1>
         <h2>
-          등록자: <b>conrad</b>
+          희망인원: <b>{data.Project.number}</b>
         </h2>
-        <h2>게시일:2020.09.13</h2>
-        <span>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with
-          the release of Letraset sheets containing Lorem Ipsum passages, and
-          more recently with desktop publishing software like Aldus PageMaker
-          including versions of Lorem Ipsum.
-        </span>
+        <h2>게시일:{data.createdAt}</h2>
+        <span>{data.content}</span>
         <CommentForm />
         <CommentItem />
         <CommentItem />

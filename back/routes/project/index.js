@@ -1,5 +1,6 @@
 const express = require("express");
-const { Project, EBoard, User } = require("../../models");
+const loadRouter = require("./load");
+const { Project, EBoard, User, EComment } = require("../../models");
 const { isLoggedIn } = require("../middlewares");
 
 const router = express.Router();
@@ -21,15 +22,32 @@ router.post("/create", isLoggedIn, async (req, res, next) => {
 
     await user.update({ ProjectId: project.id });
 
-    const eboard = await EBoard.create({
+    await EBoard.create({
       content: req.body.content,
       ProjectId: project.id,
+      UserId: req.user.id,
     });
 
-    res.status(201).json({ project, eboard });
+    const projectList = await EBoard.findOne({
+      where: { id: project.id },
+      include: [
+        {
+          model: EComment,
+          include: [{ model: User, attributes: ["id", "nickname"] }],
+        },
+        {
+          model: Project,
+        },
+        { model: User, attributes: ["id", "nickname"] },
+      ],
+    });
+    res.status(201).json(projectList);
   } catch (e) {
     console.error(e);
     next(e);
   }
 });
+
+router.use("/load", loadRouter);
+
 module.exports = router;

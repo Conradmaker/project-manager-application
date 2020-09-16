@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import IMG from "../assets/img/3.png";
 import { Positioner, Visual } from "../components/Banner";
 import Layout from "../components/Layout";
@@ -9,7 +9,8 @@ import ListItem from "../components/ListItem";
 import FixBtn from "../components/FixBtn";
 import PopForm from "../components/PopForm";
 import { MainContainer } from "./index";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { LOAD_PROJECTS_REQUEST } from "../reducers/project";
 
 const ItemContainer = styled.ul`
   display: grid;
@@ -41,12 +42,17 @@ export const DownIcon = styled.i`
 
 export default function List() {
   const { me } = useSelector((state) => state.user);
+  const { projectList } = useSelector((state) => state.project);
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const onOpen = useCallback(() => {
     if (!me) return alert("로그인이 필요합니다.");
-
     setOpen(!open);
   }, [me]);
+
+  useEffect(() => {
+    dispatch({ type: LOAD_PROJECTS_REQUEST });
+  }, [dispatch]);
   return (
     <Layout>
       <MainContainer>
@@ -61,15 +67,9 @@ export default function List() {
       <Lists>
         <h1>취업용 프로젝트</h1>
         <ItemContainer>
-          <ListItem />
-          <ListItem />
-          <ListItem />
-          <ListItem />
-          <ListItem />
-          <ListItem />
-          <ListItem />
-          <ListItem />
-          <ListItem />
+          {projectList.map((data) => (
+            <ListItem data={data} />
+          ))}
         </ItemContainer>
       </Lists>
       <FixBtn open={onOpen} />

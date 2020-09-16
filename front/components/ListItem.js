@@ -16,6 +16,7 @@ const ItemBox = styled.li`
   display: flex;
   flex-direction: column;
   padding: 10px;
+  overflow: hidden;
 
   h2 {
     font-size: 25px;
@@ -46,9 +47,9 @@ const ItemBox = styled.li`
   }
 `;
 
-export default function ListItem() {
+export default function ListItem({ data }) {
+  console.log(data);
   const [open, setOpen] = useState(false);
-
   const onOpen = useCallback(() => {
     setOpen(!open);
   }, []);
@@ -58,14 +59,11 @@ export default function ListItem() {
         <ImgBox>
           <img src="" alt="" />
         </ImgBox>
-        <h2>주제</h2>
-        <p>
-          Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in
-          laying out print, graphic or web designs.
-        </p>
+        <h2>{data.Project.name}</h2>
+        <p>{data.content}</p>
         <button onClick={onOpen}>더보기</button>
       </ItemBox>
-      {open && <Detail close={setOpen} />}
+      {open && <Detail close={setOpen} data={data} />}
     </>
   );
 }
