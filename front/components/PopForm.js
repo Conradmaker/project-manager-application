@@ -64,7 +64,7 @@ const FormContainer = styled.div`
 
 export const CloseBtn = styled.button`
   font-size: 30px;
-  color: white;
+  color: white !important;
 
   position: absolute;
   top: 10px;

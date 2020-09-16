@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 
   EComment.associate = (db) => {
     db.EComment.belongsTo(db.User);
-    db.EComment.belongsToMany(db.EBoard, { through: "EmployeComment" });
+    db.EComment.belongsTo(db.EBoard);
   };
   return EComment;
 };

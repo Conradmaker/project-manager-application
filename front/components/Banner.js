@@ -72,7 +72,7 @@ export default function Banner() {
       <Visual>
         <h1>모시기 저시기 하나둘셋넷</h1>
         <BtnWrapper>
-          <Link href="">
+          <Link href="/list">
             <a>
               <div>
                 <i>

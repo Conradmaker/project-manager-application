@@ -48,7 +48,6 @@ const ItemBox = styled.li`
 `;
 
 export default function ListItem({ data }) {
-  console.log(data);
   const [open, setOpen] = useState(false);
   const onOpen = useCallback(() => {
     setOpen(!open);

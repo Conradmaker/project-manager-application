@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 
   EBoard.associate = (db) => {
     db.EBoard.belongsTo(db.Project);
-    db.EBoard.belongsToMany(db.EComment, { through: "EmployeComment" });
+    db.EBoard.hasMany(db.EComment);
     db.EBoard.belongsTo(db.User);
   };
   return EBoard;

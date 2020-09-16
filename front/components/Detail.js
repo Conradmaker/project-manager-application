@@ -3,6 +3,7 @@ import styled, { keyframes } from "styled-components";
 import { CloseBtn } from "./PopForm";
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
+import {} from "./PopForm";
 
 export const slide = keyframes`
 from{
@@ -15,13 +16,14 @@ to{
 
 export const DetailBox = styled.div`
   width: 40%;
+  min-height: 500px;
   max-height: 90%;
   background: #fff;
   padding: 30px 40px;
   box-sizing: border-box;
 
   box-shadow: 0 0 30px #2f303a;
-  overflow: scroll;
+  overflow-y: scroll;
   h1 {
     margin-bottom: 20px;
   }
@@ -52,7 +54,7 @@ const DetailContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(30, 66, 148, 1);
+  background: rgba(0, 0, 0, 0.75);
   z-index: 13;
   button {
     color: black;
@@ -64,9 +66,10 @@ const DetailContainer = styled.div`
 `;
 
 export default function Detail({ close, data }) {
+  const { leader } = data.Project;
   return (
     <DetailContainer>
-      <CloseBtn white={true} onClick={() => close(false)}>
+      <CloseBtn white onClick={() => close(false)}>
         닫기
       </CloseBtn>
       <DetailBox>
@@ -78,11 +81,10 @@ export default function Detail({ close, data }) {
         </h2>
         <h2>게시일:{data.createdAt}</h2>
         <span>{data.content}</span>
-        <CommentForm />
-        <CommentItem />
-        <CommentItem />
-        <CommentItem />
-        <CommentItem />
+        <CommentForm id={data.ProjectId} />
+        {data.EComments.map((item) => (
+          <CommentItem data={item} leader={leader} />
+        ))}
       </DetailBox>
     </DetailContainer>
   );

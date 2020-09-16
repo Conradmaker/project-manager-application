@@ -48,6 +48,30 @@ router.post("/create", isLoggedIn, async (req, res, next) => {
   }
 });
 
+router.post("/comment/:postId", isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await EBoard.findOne({
+      where: { ProjectId: req.params.postId },
+    });
+    if (!post) {
+      return res.status(403).send("존재하지 않는 게시글입니다.");
+    }
+    const comment = await EComment.create({
+      content: req.body.content,
+      UserId: req.user.id,
+      EBoardId: post.id,
+    });
+    const fullComment = await EComment.findOne({
+      where: { id: comment.id },
+      include: [{ model: User, attributes: ["id", "nickname"] }],
+    });
+    res.status(201).json(fullComment);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
+
 router.use("/load", loadRouter);
 
 module.exports = router;

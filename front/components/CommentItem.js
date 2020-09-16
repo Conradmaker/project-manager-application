@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { MdAddCircle, MdRemoveCircle } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 const CommentCard = styled.article`
   position: relative;
@@ -29,18 +30,21 @@ const CommentCard = styled.article`
   }
 `;
 
-export default function CommentItem() {
+export default function CommentItem({ data, leader }) {
+  const { me } = useSelector((state) => state.user);
   return (
     <CommentCard>
-      <h1>-Conrad</h1>
-      <p>2020.19.13</p>
-      <span>참여하고 싶어요</span>
-      <i>
-        {/* 팀장이면 */}
-        <MdAddCircle />
-        {/* 작성자면 */}
-        <MdRemoveCircle style={{ color: "red" }} />
-      </i>
+      <h1>-{data.User.nickname}</h1>
+      <p>{data.createdAt}</p>
+      <span>{data.content}</span>
+      {me && (
+        <i>
+          {leader === me.id && me.id !== data.id && <MdAddCircle />}
+          {data.User.id === me.id && (
+            <MdRemoveCircle style={{ color: "red" }} />
+          )}
+        </i>
+      )}
     </CommentCard>
   );
 }

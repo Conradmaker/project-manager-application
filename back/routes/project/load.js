@@ -7,10 +7,7 @@ router.get("/", async (req, res, next) => {
   try {
     const projectList = await EBoard.findAll({
       limit: 12,
-      order: [
-        ["createdAt", "DESC"],
-        [EComment, "createdAt", "DESC"],
-      ],
+      order: [["createdAt", "DESC"]],
       include: [
         {
           model: EComment,

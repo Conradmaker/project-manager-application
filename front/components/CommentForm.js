@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { Btn } from "./LoginForm";
+import useInput from "../hooks/useInput";
+import { ADD_COMMENT_REQUEST } from "../reducers/project";
+import { Btn, Input } from "./LoginForm";
 const IntoBtn = styled(Btn)`
   cursor: pointer;
   width: 100%;
@@ -18,11 +21,35 @@ const CommentBox = styled.form`
   }
 `;
 
-export default function CommentForm() {
+export default function CommentForm({ id }) {
+  const dispatch = useDispatch();
+  const { me } = useSelector((state) => state.user);
+  const [content, onChange] = useInput("");
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch({ type: ADD_COMMENT_REQUEST, data: { content, id } });
+  };
   return (
-    <CommentBox>
-      <textarea name=""></textarea>
-      <IntoBtn>신청</IntoBtn>
-    </CommentBox>
+    <>
+      {!me ? null : me.ProjectId ? (
+        <CommentBox>
+          <textarea
+            type="text"
+            disabled
+            placeholder="이미 진행중인 프로젝트가 있습니다."
+          ></textarea>
+        </CommentBox>
+      ) : (
+        <CommentBox onSubmit={onSubmit}>
+          <textarea
+            name="comment"
+            value={content}
+            onChange={onChange}
+          ></textarea>
+          <IntoBtn type="submit">신청</IntoBtn>
+        </CommentBox>
+      )}
+    </>
   );
 }
