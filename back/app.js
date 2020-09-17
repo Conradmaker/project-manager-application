@@ -9,6 +9,7 @@ const passportConfig = require("./passport");
 
 const userRouter = require("./routes/user");
 const projectRouter = require("./routes/project");
+const manageRouter = require("./routes/manage");
 const db = require("./models");
 dotenv.config();
 const app = express();
@@ -49,6 +50,7 @@ app.get("/", (req, res) => {
 });
 app.use("/user", userRouter);
 app.use("/project", projectRouter);
+app.use("/manage", manageRouter);
 
 app.listen(3030, () => {
   console.log("3030포트에서 실행");

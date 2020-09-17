@@ -11,12 +11,14 @@ router.get("/", async (req, res, next) => {
       include: [
         {
           model: EComment,
-          include: [{ model: User, attributes: ["id", "nickname"] }],
+          include: [
+            { model: User, attributes: ["id", "nickname", "ProjectId"] },
+          ],
         },
         {
           model: Project,
         },
-        { model: User, attributes: ["id", "nickname"] },
+        { model: User, attributes: ["id", "nickname", "ProjectId"] },
       ],
     });
     res.status(200).json(projectList);

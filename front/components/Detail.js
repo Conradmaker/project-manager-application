@@ -66,7 +66,7 @@ const DetailContainer = styled.div`
 `;
 
 export default function Detail({ close, data }) {
-  const { leader } = data.Project;
+  const { leader, id } = data.Project;
   return (
     <DetailContainer>
       <CloseBtn white onClick={() => close(false)}>
@@ -83,7 +83,7 @@ export default function Detail({ close, data }) {
         <span>{data.content}</span>
         <CommentForm id={data.ProjectId} />
         {data.EComments.map((item) => (
-          <CommentItem data={item} leader={leader} />
+          <CommentItem data={item} leader={{ leader, id }} />
         ))}
       </DetailBox>
     </DetailContainer>

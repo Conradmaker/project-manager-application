@@ -1,4 +1,5 @@
 import produce from "immer";
+import { ADD_MEMBER_SUCCESS } from "./manage";
 
 export const CREATE_PROJECT_REQUEST = "project/CREATE_PROJECT_REQUEST";
 export const CREATE_PROJECT_SUCCESS = "project/CREATE_PROJECT_SUCCESS";
@@ -111,6 +112,8 @@ const project = (state = initialState, action) =>
         draft.removeCommentLoading = false;
         draft.removeCommentDone = false;
         draft.removeCommentError = action.error;
+        break;
+      case ADD_MEMBER_SUCCESS:
         break;
       default:
         break;

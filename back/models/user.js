@@ -13,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       collate: "utf8_general_ci", //한글저장
     }
   );
-  User.associate = (db) => {};
+  User.associate = (db) => {
+    db.User.belongsTo(db.Project);
+  };
   return User;
 };
