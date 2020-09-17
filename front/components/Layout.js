@@ -106,10 +106,8 @@ const TopHeader = styled.nav`
   }
   ul {
     display: flex;
-    li:nth-child(2) {
-      i {
-        background: rgb(30, 66, 148);
-      }
+    .blueCircle {
+      background: rgb(30, 66, 148);
     }
     li {
       color: #fff;
@@ -205,7 +203,6 @@ export default function Layout({ visible, children }) {
       } else {
         setColor(false);
       }
-      console.log(window.pageYOffset);
     }
     window.addEventListener("scroll", onScroll);
   }, []);
@@ -226,20 +223,28 @@ export default function Layout({ visible, children }) {
                   <span>Login</span>
                 </li>
                 <li onClick={onSignupOpen}>
-                  <i></i>
+                  <i className="blueCircle"></i>
                   <span>Signup</span>
                 </li>
               </>
             ) : (
               <>
-                <li onClick={onLogout}>
-                  <i></i>
-                  <span>LogOut</span>
-                </li>
-                <li onClick={onSignupOpen}>
-                  <i></i>
-                  <span>{me.nickname}님</span>
-                </li>
+                <Link href="/">
+                  <a>
+                    <li onClick={onLogout}>
+                      <i></i>
+                      <span>LogOut</span>
+                    </li>
+                  </a>
+                </Link>
+                <Link href="/profile">
+                  <a>
+                    <li>
+                      <i className="blueCircle"></i>
+                      <span>{me.nickname}님</span>
+                    </li>
+                  </a>
+                </Link>
               </>
             )}
             <Link href="/about">

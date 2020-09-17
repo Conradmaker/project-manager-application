@@ -1,5 +1,5 @@
 const express = require("express");
-const { User } = require("../models");
+const { User, Project } = require("../models");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
@@ -25,6 +25,7 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
         attributes: {
           exclude: ["password"],
         },
+        include: [{ model: Project, attributes: ["name"] }],
       });
       return res.status(200).json(FullUser);
     });

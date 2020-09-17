@@ -4,6 +4,7 @@ import IMG from "../assets/img/1.png";
 import { FaTools } from "react-icons/fa";
 import { RiTeamFill } from "react-icons/ri";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 
 export const BtnWrapper = styled.div`
   position: absolute;
@@ -24,6 +25,7 @@ export const BtnWrapper = styled.div`
     border-radius: 5px;
     color: white;
     box-shadow: 0 0 2px white;
+    position: relative;
     cursor: pointer;
     transition: all 0.3s ease;
     &:hover {
@@ -62,10 +64,28 @@ export const Visual = styled.div`
     font-size: 55px;
     font-weight: bold;
     text-shadow: 0 0 10px #eeeeee;
+    small {
+      font-size: 38px;
+    }
   }
 `;
-
+const Blockwrapper = styled.i`
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 5px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+`;
 export default function Banner() {
+  const { me } = useSelector((state) => state.user);
   return (
     <div>
       <Positioner />
@@ -82,16 +102,30 @@ export default function Banner() {
               </div>
             </a>
           </Link>
-          <Link href="/project/1">
-            <a>
-              <div>
-                <i>
-                  <FaTools />
-                </i>
-                <span>프로젝트 관리</span>
-              </div>
-            </a>
-          </Link>
+          {me ? (
+            <Link href="/project/1">
+              <a>
+                <div>
+                  <i>
+                    <FaTools />
+                  </i>
+                  <span>프로젝트 관리</span>
+                </div>
+              </a>
+            </Link>
+          ) : (
+            <Link href="/">
+              <a>
+                <div>
+                  <Blockwrapper>로그인해주세요</Blockwrapper>
+                  <i>
+                    <FaTools />
+                  </i>
+                  <span>프로젝트 관리</span>
+                </div>
+              </a>
+            </Link>
+          )}
         </BtnWrapper>
       </Visual>
     </div>

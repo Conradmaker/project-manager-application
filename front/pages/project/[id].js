@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { bling } from "../about";
 import { ImArrowDown2 } from "react-icons/im";
 import Manager from "../../components/DashBoard/";
+import { useDispatch } from "react-redux";
 
 const Progress = styled.div`
   width: 50%;
@@ -50,6 +51,7 @@ const ProgressBox = styled.div`
 `;
 
 export default function ProjectManage() {
+  const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     function onVisible() {
@@ -62,6 +64,9 @@ export default function ProjectManage() {
     }
     window.addEventListener("scroll", onVisible);
   }, []);
+  useEffect(() => {
+    //프로젝트 정보 불러와야 함. req.params.id
+  }, [dispatch]);
   return (
     <>
       <MainContainer>
