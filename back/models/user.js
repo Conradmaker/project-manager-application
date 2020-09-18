@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       password: { type: DataTypes.STRING(100), allowNull: false },
       grade: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
       position: { type: DataTypes.STRING(30), allowNull: false },
+      completed: { type: DataTypes.INTEGER, defaultValue: 0 },
     },
     {
       charset: "utf8",

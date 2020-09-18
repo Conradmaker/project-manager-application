@@ -71,7 +71,7 @@ export default function profile() {
               <Link href="/project/1">
                 <a>
                   <h2>진행중인 프로젝트</h2>
-                  <p>{me.Project.name ? me.Project.name : "없습니다"}</p>
+                  <p>{me.ProjectId ? me.Project.name : "없습니다"}</p>
                 </a>
               </Link>
             </li>

@@ -32,6 +32,27 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
   })(req, res, next);
 });
 
+//로그인 유지
+router.get("/", async (req, res, next) => {
+  try {
+    if (req.user) {
+      const fullUser = await User.findOne({
+        where: { id: req.user.id },
+        attributes: {
+          exclude: ["password"],
+        },
+        include: [{ model: Project, attributes: ["name"] }],
+      });
+      return res.status(200).json(fullUser);
+    } else {
+      return status(200).json(null);
+    }
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
+
 //회원가입
 router.post("/signup", isNotLoggedIn, async (req, res, next) => {
   try {
