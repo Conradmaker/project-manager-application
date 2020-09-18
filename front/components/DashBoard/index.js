@@ -20,12 +20,12 @@ const ManagerContainer = styled(MainContainer)`
   justify-content: center;
 `;
 
-export default function Manager() {
+export default function Manager({ data }) {
   return (
     <ManagerContainer>
       <ManagerBox>
-        <DashBoard />
-        <MemberList />
+        <DashBoard data={data} />
+        <MemberList data={data} />
       </ManagerBox>
     </ManagerContainer>
   );

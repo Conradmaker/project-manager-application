@@ -13,6 +13,9 @@ const {
   REMOVE_COMMENT_ERROR,
   REMOVE_COMMENT_REQUEST,
   REMOVE_COMMENT_SUCCESS,
+  LOAD_PROJECT_SUCCESS,
+  LOAD_PROJECT_ERROR,
+  LOAD_PROJECT_REQUEST,
 } = require("../reducers/project");
 
 //프로젝트 생성
@@ -47,7 +50,7 @@ function* loadProjects() {
     yield put({ type: LOAD_PROJECTS_ERROR, error: e.response.data });
   }
 }
-function* watchLoadProject() {
+function* watchLoadProjects() {
   yield takeEvery(LOAD_PROJECTS_REQUEST, loadProjects);
 }
 
@@ -86,10 +89,31 @@ function* removeComment(action) {
 function* watchRemoveComment() {
   yield takeEvery(REMOVE_COMMENT_REQUEST, removeComment);
 }
+
+//프로젝트 정보 가져오기
+async function loadProjectAPI(data) {
+  const response = await axios.get(`/project/load/${data}`);
+  return response.data;
+}
+function* loadProject(action) {
+  try {
+    const data = yield call(loadProjectAPI, action.data);
+    console.log(data);
+    yield put({ type: LOAD_PROJECT_SUCCESS, data });
+  } catch (e) {
+    console.log("시작");
+    console.error(e);
+    yield put({ type: LOAD_PROJECT_ERROR, error: e.response.data });
+  }
+}
+function* watchLoadProject() {
+  yield takeEvery(LOAD_PROJECT_REQUEST, loadProject);
+}
 export default function* projectSaga() {
   yield all([
     fork(watchCreateProject),
     fork(watchLoadProject),
+    fork(watchLoadProjects),
     fork(watchAddComment),
     fork(watchRemoveComment),
   ]);

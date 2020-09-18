@@ -17,6 +17,8 @@ db.PBoard = require("./pBoard")(sequelize, Sequelize);
 db.Image = require("./Image")(sequelize, Sequelize);
 db.Hashtag = require("./hashtag")(sequelize, Sequelize);
 db.Schedule = require("./schedule")(sequelize, Sequelize);
+db.Todo = require("./todoList")(sequelize, Sequelize);
+
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);

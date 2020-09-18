@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
 
   PBoard.associate = (db) => {
     db.PBoard.belongsTo(db.User);
-    db.PBoard.belongsToMany(db.Project, { through: "ProjectBoard" });
+    db.PBoard.belongsTo(db.Project);
   };
   return PBoard;
 };

@@ -45,7 +45,7 @@ router.get("/", async (req, res, next) => {
       });
       return res.status(200).json(fullUser);
     } else {
-      return status(200).json(null);
+      return res.status(200).json(null);
     }
   } catch (e) {
     console.error(e);

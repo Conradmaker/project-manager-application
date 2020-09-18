@@ -4,18 +4,20 @@ import user from "./user";
 import project from "./project";
 import manage from "./manage";
 
-const rootReducer = combineReducers({
-  index: (state = {}, action) => {
-    switch (action.type) {
-      case HYDRATE:
-        return { ...state, ...action.payload };
-      default:
-        return state;
+const rootReducer = (state, action) => {
+  switch (action.type) {
+    case HYDRATE:
+      console.log("HYDRATE", action);
+      return action.payload;
+    default: {
+      const combinedReducer = combineReducers({
+        user,
+        project,
+        manage,
+      });
+      return combinedReducer(state, action);
     }
-  },
-  user,
-  project,
-  manage,
-});
+  }
+};
 
 export default rootReducer;

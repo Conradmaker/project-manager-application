@@ -58,37 +58,24 @@ const MemberBox = styled.div`
     font-size: 30px;
   }
 `;
-export default function MemberList() {
+export default function MemberList({ data }) {
+  console.log(data);
   return (
     <>
       <MemberBox>
         <h1>멤버</h1>
         <MemberLists>
-          <li>
-            <Link href="">
-              <a>
-                <span>Conrad</span>
-              </a>
-            </Link>
-            <p>-Front-End</p>
-            <button>추방</button>
-          </li>
-          <li>
-            <Link href="">
-              <a>
-                <span>yhg0337</span>
-              </a>
-            </Link>
-            <p>-Back-End</p>
-          </li>
-          <li>
-            <Link href="">
-              <a>
-                <span>유워근</span>
-              </a>
-            </Link>
-            <p>-Dev-Ops</p>
-          </li>
+          {data.Users.map((v) => (
+            <li>
+              <Link href="">
+                <a>
+                  <span>{v.nickname}</span>
+                </a>
+              </Link>
+              <p>-{v.position}</p>
+              <button>추방</button>
+            </li>
+          ))}
         </MemberLists>
       </MemberBox>
     </>

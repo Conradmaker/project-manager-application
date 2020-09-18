@@ -4,10 +4,13 @@ import { Visual, Positioner, BtnWrapper } from "../../components/Banner";
 import { DownIcon } from "../list";
 import Layout from "../../components/Layout";
 import styled from "styled-components";
-import { bling } from "../about";
 import { ImArrowDown2 } from "react-icons/im";
 import Manager from "../../components/DashBoard/";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Router, { useRouter } from "next/router";
+import { LOAD_PROJECT_REQUEST } from "../../reducers/project";
+import wrapper from "../../store/configureStore";
+import { END } from "redux-saga";
 
 const Progress = styled.div`
   width: 50%;
@@ -50,7 +53,10 @@ const ProgressBox = styled.div`
   }
 `;
 
-export default function ProjectManage() {
+function ProjectManage() {
+  const { me } = useSelector((state) => state.user);
+  const { projectInfo } = useSelector((state) => state.project);
+  console.log(projectInfo);
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   useEffect(() => {
@@ -60,20 +66,26 @@ export default function ProjectManage() {
       } else {
         setVisible(false);
       }
-      console.log(window.pageYOffset);
     }
     window.addEventListener("scroll", onVisible);
   }, []);
-  useEffect(() => {
-    //프로젝트 정보 불러와야 함. req.params.id
-  }, [dispatch]);
+  // useEffect(() => {
+  //   if (me.Project === null) {
+  //     alert("진행중인 프로젝트가 없습니다.");
+  //     Router.push("/list");
+  //   }
+  // }, [me]);
   return (
     <>
       <MainContainer>
         <Layout visible={visible}>
           <Positioner>
             <Visual>
-              <h1>오늘도 화이팅</h1>
+              <h1>
+                {projectInfo.name}
+                <br /> 오늘도 화이팅
+              </h1>
+
               <DownIcon>
                 <ImArrowDown2 />
               </DownIcon>
@@ -86,7 +98,21 @@ export default function ProjectManage() {
           </Positioner>
         </Layout>
       </MainContainer>
-      <Manager />
+      <Manager data={projectInfo} />
     </>
   );
 }
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  async (context) => {
+    console.log("SSR시작", context);
+    context.store.dispatch({
+      type: LOAD_PROJECT_REQUEST,
+      data: context.params.id,
+    });
+    context.store.dispatch(END);
+    console.log("SSR끝");
+    await context.store.sagaTask.toPromise();
+  }
+);
+export default ProjectManage;

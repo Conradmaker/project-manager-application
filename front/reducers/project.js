@@ -17,6 +17,10 @@ export const REMOVE_COMMENT_REQUEST = "project/REMOVE_COMMENT_REQUEST";
 export const REMOVE_COMMENT_SUCCESS = "project/REMOVE_COMMENT_SUCCESS";
 export const REMOVE_COMMENT_ERROR = "project/REMOVE_COMMENT_ERROR";
 
+export const LOAD_PROJECT_REQUEST = "project/LOAD_PROJECT_REQUEST";
+export const LOAD_PROJECT_SUCCESS = "project/LOAD_PROJECT_SUCCESS";
+export const LOAD_PROJECT_ERROR = "project/LOAD_PROJECT_ERROR";
+
 const initialState = {
   createProjectLoading: false,
   createProjectDone: false,
@@ -25,6 +29,10 @@ const initialState = {
   loadProjectsLoading: false,
   loadProjectsDone: false,
   loadProjectsError: false,
+
+  loadProjectLoading: false,
+  loadProjectDone: false,
+  loadProjectError: null,
 
   addCommentLoading: false,
   addCommentDone: false,
@@ -35,6 +43,7 @@ const initialState = {
   removeCommentError: false,
 
   projectList: [],
+  projectInfo: {},
 };
 
 const project = (state = initialState, action) =>
@@ -72,6 +81,22 @@ const project = (state = initialState, action) =>
         draft.loadProjectsLoading = false;
         draft.loadProjectsDone = false;
         draft.loadProjectsError = action.error;
+        break;
+      case LOAD_PROJECT_REQUEST:
+        draft.loadProjectLoading = true;
+        draft.loadProjectDone = false;
+        draft.loadProjectError = false;
+        break;
+      case LOAD_PROJECT_SUCCESS:
+        draft.loadProjectLoading = false;
+        draft.loadProjectDone = true;
+        draft.loadProjectError = false;
+        draft.projectInfo = action.data;
+        break;
+      case LOAD_PROJECT_ERROR:
+        draft.loadProjectLoading = false;
+        draft.loadProjectDone = false;
+        draft.loadProjectError = action.error;
         break;
       case ADD_COMMENT_REQUEST:
         draft.addCommentLoading = true;

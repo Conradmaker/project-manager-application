@@ -8,7 +8,9 @@ module.exports = (sequelize, DataTypes) => {
   });
   Project.associate = (db) => {
     db.Project.hasMany(db.User);
-    db.Project.belongsToMany(db.PBoard, { through: "ProjectBoard" });
+    db.Project.hasMany(db.Schedule);
+    db.Project.hasMany(db.PBoard);
+    db.Project.hasMany(db.Todo);
     db.Project.belongsToMany(db.Hashtag, { through: "ProjectHashtag" });
   };
   return Project;
