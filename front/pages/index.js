@@ -1,9 +1,10 @@
 import Layout from "../components/Layout";
 import Banner from "../components/Banner";
 import styled from "styled-components";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { LOAD_MY_INFO_REQUEST } from "../reducers/user";
+import wrapper from "../store/configureStore";
+import { END } from "redux-saga";
+import axios from "axios";
 
 export const MainContainer = styled.div`
   width: 100%;
@@ -12,12 +13,7 @@ export const MainContainer = styled.div`
   position: relative;
 `;
 
-export default function Main() {
-  // const {me}= useSelector(state => state.user)
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch({ type: LOAD_MY_INFO_REQUEST });
-  }, [dispatch]);
+function Main() {
   return (
     <MainContainer>
       <Layout>
@@ -26,3 +22,22 @@ export default function Main() {
     </MainContainer>
   );
 }
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  async (context) => {
+    console.log("SSR시작");
+    const cookie = context.req ? context.req.headers.cookie : "";
+    axios.defaults.headers.Cookie = "";
+    if (context.req && cookie) {
+      axios.defaults.headers.Cookie = cookie;
+    }
+    context.store.dispatch({
+      type: LOAD_MY_INFO_REQUEST,
+    });
+    context.store.dispatch(END);
+    console.log("SSR끝");
+    await context.store.sagaTask.toPromise();
+  }
+);
+
+export default Main;

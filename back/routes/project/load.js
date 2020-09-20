@@ -42,7 +42,10 @@ router.get("/:projectId", async (req, res, next) => {
       where: { id: req.params.projectId },
       include: [
         { model: User, attributes: ["id", "nickname", "position"] },
-        { model: PBoard },
+        {
+          model: PBoard,
+          include: { model: User, attributes: ["nickname", "id"] },
+        },
         { model: Schedule },
         { model: Todo },
       ],

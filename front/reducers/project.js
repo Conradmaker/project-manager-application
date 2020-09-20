@@ -1,5 +1,5 @@
 import produce from "immer";
-import { ADD_MEMBER_SUCCESS } from "./manage";
+import { ADD_MEMBER_SUCCESS, ADD_PBOARD_SUCCESS } from "./manage";
 
 export const CREATE_PROJECT_REQUEST = "project/CREATE_PROJECT_REQUEST";
 export const CREATE_PROJECT_SUCCESS = "project/CREATE_PROJECT_SUCCESS";
@@ -140,6 +140,8 @@ const project = (state = initialState, action) =>
         break;
       case ADD_MEMBER_SUCCESS:
         break;
+      case ADD_PBOARD_SUCCESS:
+        draft.projectInfo.PBoards.unshift(action.data);
       default:
         break;
     }

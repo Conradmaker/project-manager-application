@@ -18,12 +18,12 @@ const ContentBox = styled.section`
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(12, 1fr);
 `;
-export default function DashBoard() {
+export default function DashBoard({ data }) {
   return (
     <DashBoardBox>
       <DashBoardHeader />
       <ContentBox>
-        <Board />
+        <Board data={data} />
         <TodoList />
         <Calender />
       </ContentBox>

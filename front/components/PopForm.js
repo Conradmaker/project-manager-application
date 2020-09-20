@@ -81,7 +81,7 @@ export const CloseBtn = styled.button`
     `}
 `;
 
-export default function PopForm({ close, header, children }) {
+export default function PopForm({ close, header, id, children }) {
   return (
     <FormContainer>
       <FormBox>
@@ -105,7 +105,9 @@ export default function PopForm({ close, header, children }) {
       )}
       {header === "board" && (
         <SmallBox>
-          <BoardForm close={close}>{children}</BoardForm>
+          <BoardForm id={id} close={close}>
+            {children}
+          </BoardForm>
         </SmallBox>
       )}
       <CloseBtn onClick={() => close(false)}>X</CloseBtn>

@@ -11,6 +11,8 @@ import Router, { useRouter } from "next/router";
 import { LOAD_PROJECT_REQUEST } from "../../reducers/project";
 import wrapper from "../../store/configureStore";
 import { END } from "redux-saga";
+import { LOAD_MY_INFO_REQUEST } from "../../reducers/user";
+import axios from "axios";
 
 const Progress = styled.div`
   width: 50%;
@@ -105,10 +107,19 @@ function ProjectManage() {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async (context) => {
-    console.log("SSR시작", context);
+    console.log("SSR시작");
+    console.log(context.req.headers);
+    const cookie = context.req ? context.req.headers.cookie : "";
+    axios.defaults.headers.Cookie = "";
+    if (context.req && cookie) {
+      axios.defaults.headers.Cookie = cookie;
+    }
     context.store.dispatch({
       type: LOAD_PROJECT_REQUEST,
       data: context.params.id,
+    });
+    context.store.dispatch({
+      type: LOAD_MY_INFO_REQUEST,
     });
     context.store.dispatch(END);
     console.log("SSR끝");
