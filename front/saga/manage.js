@@ -13,6 +13,12 @@ const {
   REMOVE_MEMBER_SUCCESS,
   REMOVE_MEMBER_ERROR,
   REMOVE_MEMBER_REQUEST,
+  REMOVE_TODO_ERROR,
+  REMOVE_TODO_SUCCESS,
+  REMOVE_TODO_REQUEST,
+  ADD_TODO_REQUEST,
+  ADD_TODO_ERROR,
+  ADD_TODO_SUCCESS,
 } = require("../reducers/manage");
 //멤버추가
 async function addMemberAPI(data) {
@@ -53,7 +59,7 @@ function* watchRemoveMember() {
 
 //게시판글추가
 async function addPBoardAPI(data) {
-  const response = await axios.post(`/manage/addboard/`, data);
+  const response = await axios.post(`/manage/board/`, data);
   return response.data;
 }
 function* addPBoard(action) {
@@ -72,7 +78,7 @@ function* watchAddPBoard() {
 //게시판글삭제
 async function removePBoardAPI(data) {
   const response = await axios.delete(
-    `/manage/addboard/${data.userId}/${data.postId}`
+    `/manage/board/${data.userId}/${data.postId}`
   );
   return response.data;
 }
@@ -89,11 +95,49 @@ function* watchRemovePBoard() {
   yield takeEvery(REMOVE_PBOARD_REQUEST, removePBoard);
 }
 
+//할일추가
+async function addTodoAPI(data) {
+  const response = await axios.post(`/manage/todo/`, data);
+  return response.data;
+}
+function* addTodo(action) {
+  try {
+    const data = yield call(addTodoAPI, action.data);
+    yield put({ type: ADD_TODO_SUCCESS, data });
+  } catch (e) {
+    console.error(e);
+    yield put({ type: ADD_TODO_ERROR, error: e.response.data });
+  }
+}
+function* watchAddTodo() {
+  yield takeEvery(ADD_TODO_REQUEST, addTodo);
+}
+
+//할일삭제
+async function removeTodoAPI(data) {
+  const response = await axios.delete(`/manage/todo/${data}`);
+  return response.data;
+}
+function* removeTodo(action) {
+  try {
+    const data = yield call(removeTodoAPI, action.data);
+    yield put({ type: REMOVE_TODO_SUCCESS, data });
+  } catch (e) {
+    console.error(e);
+    yield put({ type: REMOVE_TODO_ERROR, error: e.response.data });
+  }
+}
+function* watchRemoveTodo() {
+  yield takeEvery(REMOVE_TODO_REQUEST, removeTodo);
+}
+
 export default function* manageSaga() {
   yield all([
     fork(watchAddMember),
     fork(watchRemoveMember),
     fork(watchAddPBoard),
     fork(watchRemovePBoard),
+    fork(watchAddTodo),
+    fork(watchRemoveTodo),
   ]);
 }

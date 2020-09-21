@@ -16,6 +16,14 @@ export const REMOVE_PBOARD_REQUEST = "manage/REMOVE_PBOARD_REQUEST";
 export const REMOVE_PBOARD_SUCCESS = "manage/REMOVE_PBOARD_SUCCESS";
 export const REMOVE_PBOARD_ERROR = "manage/REMOVE_PBOARD_ERROR";
 
+export const ADD_TODO_REQUEST = "manage/ADD_TODO_REQUEST";
+export const ADD_TODO_SUCCESS = "manage/ADD_TODO_SUCCESS";
+export const ADD_TODO_ERROR = "manage/ADD_TODO_ERROR";
+
+export const REMOVE_TODO_REQUEST = "manage/REMOVE_TODO_REQUEST";
+export const REMOVE_TODO_SUCCESS = "manage/REMOVE_TODO_SUCCESS";
+export const REMOVE_TODO_ERROR = "manage/REMOVE_TODO_ERROR";
+
 const initialState = {
   addMemberLoading: false,
   addMemberDone: false,
@@ -32,6 +40,14 @@ const initialState = {
   removePBoardLoading: false,
   removePBoardDone: false,
   removePBoardError: false,
+
+  addTodoLoading: false,
+  addTodoDone: false,
+  addTodoError: false,
+
+  removeTodoLoading: false,
+  removeTodoDone: false,
+  removeTodoError: false,
 };
 
 export default function manage(state = initialState, action) {
@@ -99,6 +115,38 @@ export default function manage(state = initialState, action) {
         draft.removePBoardLoading = false;
         draft.removePBoardDone = false;
         draft.removePBoardError = action.error;
+        break;
+
+      case ADD_TODO_REQUEST:
+        draft.addTodoLoading = true;
+        draft.addTodoDone = false;
+        draft.addTodoError = false;
+        break;
+      case ADD_TODO_SUCCESS:
+        draft.addTodoLoading = false;
+        draft.addTodoDone = true;
+        draft.addTodoError = false;
+        break;
+      case ADD_TODO_ERROR:
+        draft.addTodoLoading = false;
+        draft.addTodoDone = false;
+        draft.addTodoError = action.error;
+        break;
+
+      case REMOVE_TODO_REQUEST:
+        draft.removeTodoLoading = true;
+        draft.removeTodoDone = false;
+        draft.removeTodoError = false;
+        break;
+      case REMOVE_TODO_SUCCESS:
+        draft.removeTodoLoading = false;
+        draft.removeTodoDone = true;
+        draft.removeTodoError = false;
+        break;
+      case REMOVE_TODO_ERROR:
+        draft.removeTodoLoading = false;
+        draft.removeTodoDone = false;
+        draft.removeTodoError = action.error;
         break;
       default:
         break;

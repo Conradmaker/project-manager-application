@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled, { css } from "styled-components";
 import { MdDone, MdDelete } from "react-icons/md";
+import { REMOVE_TODO_REQUEST } from "../../reducers/manage";
+import { useDispatch } from "react-redux";
 
 export const Remove = styled.div`
   display: flex;
@@ -62,12 +64,16 @@ export const Text = styled.div`
     `}
 `;
 
-function TodoItem({ id, done, text }) {
+function TodoItem({ data }) {
+  const dispatch = useDispatch();
+  const onRemove = useCallback(() => {
+    dispatch({ type: REMOVE_TODO_REQUEST, data: data.id });
+  }, [dispatch]);
   return (
     <TodoItemBlock>
-      <CheckCircle done={done}>{done && <MdDone />}</CheckCircle>
-      <Text done={done}>{text}</Text>
-      <Remove>
+      <CheckCircle done={data.done}>{data.done && <MdDone />}</CheckCircle>
+      <Text done={data.done}>{data.content}</Text>
+      <Remove onClick={onRemove}>
         <MdDelete />
       </Remove>
     </TodoItemBlock>

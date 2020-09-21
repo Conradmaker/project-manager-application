@@ -1,5 +1,5 @@
 const express = require("express");
-const { User, Project, PBoard } = require("../../models");
+const { User, Project, PBoard, Todo } = require("../../models");
 const { isLoggedIn } = require("../middlewares");
 
 const router = express.Router();
@@ -39,7 +39,7 @@ router.delete("/member/:userId", isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.post("/addboard", isLoggedIn, async (req, res, next) => {
+router.post("/board", isLoggedIn, async (req, res, next) => {
   try {
     const exProject = await Project.findOne({
       where: { id: req.body.ProjectId },
@@ -65,22 +65,44 @@ router.post("/addboard", isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.delete(
-  "/addboard/:userId/:postId",
-  isLoggedIn,
-  async (req, res, next) => {
-    try {
-      if (req.user.id !== parseInt(req.params.userId, 10)) {
-        return res.status(401).send("본인 게시글만 삭제할 수 있습니다.");
-      }
-      await PBoard.destroy({
-        where: { id: parseInt(req.params.postId, 10) },
-      });
-      res.status(200).json(parseInt(req.params.postId, 10));
-    } catch (e) {
-      console.error(e);
-      next(e);
+router.delete("/board/:userId/:postId", isLoggedIn, async (req, res, next) => {
+  try {
+    if (req.user.id !== parseInt(req.params.userId, 10)) {
+      return res.status(401).send("본인 게시글만 삭제할 수 있습니다.");
     }
+    await PBoard.destroy({
+      where: { id: parseInt(req.params.postId, 10) },
+    });
+    res.status(200).json(parseInt(req.params.postId, 10));
+  } catch (e) {
+    console.error(e);
+    next(e);
   }
-);
+});
+
+router.post("/todo", isLoggedIn, async (req, res, next) => {
+  try {
+    const todo = await Todo.create({
+      content: req.body.title,
+      ProjectId: req.body.projectId,
+      UserId: req.user.id,
+    });
+    res.status(200).json(todo);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
+
+router.delete("/todo/:todoId", isLoggedIn, async (req, res, next) => {
+  try {
+    await Todo.destroy({
+      where: { id: parseInt(req.params.todoId, 10) },
+    });
+    res.status(200).json(parseInt(req.params.todoId, 10));
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
 module.exports = router;

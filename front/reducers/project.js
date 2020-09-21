@@ -2,8 +2,10 @@ import produce from "immer";
 import {
   ADD_MEMBER_SUCCESS,
   ADD_PBOARD_SUCCESS,
+  ADD_TODO_SUCCESS,
   REMOVE_MEMBER_SUCCESS,
   REMOVE_PBOARD_SUCCESS,
+  REMOVE_TODO_SUCCESS,
 } from "./manage";
 
 export const CREATE_PROJECT_REQUEST = "project/CREATE_PROJECT_REQUEST";
@@ -154,6 +156,17 @@ const project = (state = initialState, action) =>
         break;
       case REMOVE_MEMBER_SUCCESS:
         draft.projectInfo.Users = draft.projectInfo.Users.filter(
+          (v) => v.id !== action.data
+        );
+        break;
+      case ADD_TODO_SUCCESS:
+        console.log(action.data);
+        const todo = [...draft.projectInfo.Todos];
+        todo.unshift(action.data);
+        draft.projectInfo.Todos = todo;
+        break;
+      case REMOVE_TODO_SUCCESS:
+        draft.projectInfo.Todos = draft.projectInfo.Todos.filter(
           (v) => v.id !== action.data
         );
         break;
