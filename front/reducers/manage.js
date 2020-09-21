@@ -8,6 +8,10 @@ export const ADD_PBOARD_REQUEST = "manage/ADD_PBOARD_REQUEST";
 export const ADD_PBOARD_SUCCESS = "manage/ADD_PBOARD_SUCCESS";
 export const ADD_PBOARD_ERROR = "manage/ADD_PBOARD_ERROR";
 
+export const REMOVE_PBOARD_REQUEST = "manage/REMOVE_PBOARD_REQUEST";
+export const REMOVE_PBOARD_SUCCESS = "manage/REMOVE_PBOARD_SUCCESS";
+export const REMOVE_PBOARD_ERROR = "manage/REMOVE_PBOARD_ERROR";
+
 const initialState = {
   addMemberLoading: false,
   addMemberDone: false,
@@ -16,6 +20,10 @@ const initialState = {
   addPBoardLoading: false,
   addPBoardDone: false,
   addPBoardError: false,
+
+  removePBoardLoading: false,
+  removePBoardDone: false,
+  removePBoardError: false,
 };
 
 export default function manage(state = initialState, action) {
@@ -51,6 +59,22 @@ export default function manage(state = initialState, action) {
         draft.addPBoardLoading = false;
         draft.addPBoardDone = false;
         draft.addPBoardError = action.error;
+        break;
+
+      case REMOVE_PBOARD_REQUEST:
+        draft.removePBoardLoading = true;
+        draft.removePBoardDone = false;
+        draft.removePBoardError = false;
+        break;
+      case REMOVE_PBOARD_SUCCESS:
+        draft.removePBoardLoading = false;
+        draft.removePBoardDone = true;
+        draft.removePBoardError = false;
+        break;
+      case REMOVE_PBOARD_ERROR:
+        draft.removePBoardLoading = false;
+        draft.removePBoardDone = false;
+        draft.removePBoardError = action.error;
         break;
       default:
         break;

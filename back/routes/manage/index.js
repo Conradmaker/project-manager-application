@@ -42,7 +42,7 @@ router.post("/addboard", isLoggedIn, async (req, res, next) => {
     });
     const Fullpost = await PBoard.findOne({
       where: { id: post.id },
-      include: [{ model: User, attributes: ["nickname"] }],
+      include: [{ model: User, attributes: ["id", "nickname"] }],
     });
     res.status(200).json(Fullpost);
   } catch (e) {
@@ -50,4 +50,23 @@ router.post("/addboard", isLoggedIn, async (req, res, next) => {
     next(e);
   }
 });
+
+router.delete(
+  "/addboard/:userId/:postId",
+  isLoggedIn,
+  async (req, res, next) => {
+    try {
+      if (req.user.id !== parseInt(req.params.userId, 10)) {
+        return res.status(401).send("본인 게시글만 삭제할 수 있습니다.");
+      }
+      await PBoard.destroy({
+        where: { id: parseInt(req.params.postId, 10) },
+      });
+      res.status(200).json(parseInt(req.params.postId, 10));
+    } catch (e) {
+      console.error(e);
+      next(e);
+    }
+  }
+);
 module.exports = router;

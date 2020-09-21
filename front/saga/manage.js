@@ -7,6 +7,9 @@ const {
   ADD_PBOARD_SUCCESS,
   ADD_PBOARD_ERROR,
   ADD_PBOARD_REQUEST,
+  REMOVE_PBOARD_SUCCESS,
+  REMOVE_PBOARD_ERROR,
+  REMOVE_PBOARD_REQUEST,
 } = require("../reducers/manage");
 //멤버추가
 async function addMemberAPI(data) {
@@ -44,6 +47,30 @@ function* watchAddPBoard() {
   yield takeEvery(ADD_PBOARD_REQUEST, addPBoard);
 }
 
+//게시판글삭제
+async function removePBoardAPI(data) {
+  const response = await axios.delete(
+    `/manage/addboard/${data.userId}/${data.postId}`
+  );
+  return response.data;
+}
+function* removePBoard(action) {
+  try {
+    const data = yield call(removePBoardAPI, action.data);
+    yield put({ type: REMOVE_PBOARD_SUCCESS, data });
+  } catch (e) {
+    console.error(e);
+    yield put({ type: REMOVE_PBOARD_ERROR, error: e.response.data });
+  }
+}
+function* watchRemovePBoard() {
+  yield takeEvery(REMOVE_PBOARD_REQUEST, removePBoard);
+}
+
 export default function* manageSaga() {
-  yield all([fork(watchAddMember), fork(watchAddPBoard)]);
+  yield all([
+    fork(watchAddMember),
+    fork(watchAddPBoard),
+    fork(watchRemovePBoard),
+  ]);
 }

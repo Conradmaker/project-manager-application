@@ -2,7 +2,8 @@ import React, { useCallback, useState } from "react";
 import styled, { css } from "styled-components";
 import { MdErrorOutline, MdDelete } from "react-icons/md";
 import { TodoItemBlock, Text, Remove } from "./TotoItem";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { REMOVE_PBOARD_REQUEST } from "../../reducers/manage";
 
 const Title = styled(Text)`
   cursor: pointer;
@@ -34,9 +35,15 @@ const ContentInfo = styled.div`
     `}
 `;
 function BoardItem({ data }) {
-  console.log(data);
+  const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
   const [open, setOpen] = useState(false);
+  const onRemove = useCallback(() => {
+    dispatch({
+      type: REMOVE_PBOARD_REQUEST,
+      data: { userId: me.id, postId: data.id },
+    });
+  }, [dispatch]);
   const onChangeOpen = () => {
     setOpen(!open);
   };
@@ -49,7 +56,7 @@ function BoardItem({ data }) {
           {data.title} <b>-{data.User.nickname}</b>
         </Title>
         {data.User.id === me.id && (
-          <Remove>
+          <Remove onClick={onRemove}>
             <MdDelete />
           </Remove>
         )}

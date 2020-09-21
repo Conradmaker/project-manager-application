@@ -58,8 +58,6 @@ const ProgressBox = styled.div`
 function ProjectManage() {
   const { me } = useSelector((state) => state.user);
   const { projectInfo } = useSelector((state) => state.project);
-  console.log(projectInfo);
-  const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     function onVisible() {
