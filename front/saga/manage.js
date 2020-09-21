@@ -22,6 +22,9 @@ const {
   TOGGLE_TODO_SUCCESS,
   TOGGLE_TODO_ERROR,
   TOGGLE_TODO_REQUEST,
+  CHANGE_PROGRESS_SUCCESS,
+  CHANGE_PROGRESS_ERROR,
+  CHANGE_PROGRESS_REQUEST,
 } = require("../reducers/manage");
 //멤버추가
 async function addMemberAPI(data) {
@@ -152,6 +155,24 @@ function* watchToggleTodo() {
   yield takeEvery(TOGGLE_TODO_REQUEST, toggleTodo);
 }
 
+//진행상황 변경
+async function changeProgressAPI(data) {
+  const response = await axios.patch(`/manage/progress/`, data);
+  return response.data;
+}
+function* changeProgress(action) {
+  try {
+    const data = yield call(changeProgressAPI, action.data);
+    yield put({ type: CHANGE_PROGRESS_SUCCESS, data });
+  } catch (e) {
+    console.error(e);
+    yield put({ type: CHANGE_PROGRESS_ERROR, error: e.response.data });
+  }
+}
+function* watchChangeProgress() {
+  yield takeEvery(CHANGE_PROGRESS_REQUEST, changeProgress);
+}
+
 export default function* manageSaga() {
   yield all([
     fork(watchAddMember),
@@ -161,5 +182,6 @@ export default function* manageSaga() {
     fork(watchAddTodo),
     fork(watchRemoveTodo),
     fork(watchToggleTodo),
+    fork(watchChangeProgress),
   ]);
 }

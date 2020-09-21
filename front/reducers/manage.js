@@ -28,6 +28,10 @@ export const TOGGLE_TODO_REQUEST = "manage/TOGGLE_TODO_REQUEST";
 export const TOGGLE_TODO_SUCCESS = "manage/TOGGLE_TODO_SUCCESS";
 export const TOGGLE_TODO_ERROR = "manage/TOGGLE_TODO_ERROR";
 
+export const CHANGE_PROGRESS_REQUEST = "manage/CHANGE_PROGRESS_REQUEST";
+export const CHANGE_PROGRESS_SUCCESS = "manage/CHANGE_PROGRESS_SUCCESS";
+export const CHANGE_PROGRESS_ERROR = "manage/CHANGE_PROGRESS_ERROR";
+
 const initialState = {
   addMemberLoading: false,
   addMemberDone: false,
@@ -56,6 +60,10 @@ const initialState = {
   toggleTodoLoading: false,
   toggleTodoDone: false,
   toggleTodoError: false,
+
+  changeProgressLoading: false,
+  changeProgressDone: false,
+  changeProgressError: false,
 };
 
 export default function manage(state = initialState, action) {
@@ -171,6 +179,22 @@ export default function manage(state = initialState, action) {
         draft.toggleTodoLoading = false;
         draft.toggleTodoDone = false;
         draft.toggleTodoError = action.error;
+        break;
+
+      case CHANGE_PROGRESS_REQUEST:
+        draft.changeProgressLoading = true;
+        draft.changeProgressDone = false;
+        draft.changeProgressError = false;
+        break;
+      case CHANGE_PROGRESS_SUCCESS:
+        draft.changeProgressLoading = false;
+        draft.changeProgressDone = true;
+        draft.changeProgressError = false;
+        break;
+      case CHANGE_PROGRESS_ERROR:
+        draft.changeProgressLoading = false;
+        draft.changeProgressDone = false;
+        draft.changeProgressError = action.error;
         break;
       default:
         break;

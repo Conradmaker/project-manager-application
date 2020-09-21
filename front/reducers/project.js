@@ -3,6 +3,7 @@ import {
   ADD_MEMBER_SUCCESS,
   ADD_PBOARD_SUCCESS,
   ADD_TODO_SUCCESS,
+  CHANGE_PROGRESS_SUCCESS,
   REMOVE_MEMBER_SUCCESS,
   REMOVE_PBOARD_SUCCESS,
   REMOVE_TODO_SUCCESS,
@@ -176,6 +177,9 @@ const project = (state = initialState, action) =>
           (v) => v.id === action.data
         );
         selectedTodo.done = !selectedTodo.done;
+        break;
+      case CHANGE_PROGRESS_SUCCESS:
+        draft.projectInfo.progress = action.data;
         break;
       default:
         break;

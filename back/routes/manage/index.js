@@ -123,4 +123,19 @@ router.patch("/todo/:todoId", isLoggedIn, async (req, res, next) => {
     next(e);
   }
 });
+
+router.patch("/progress", isLoggedIn, async (req, res, next) => {
+  try {
+    const project = await Project.findOne({
+      where: { id: req.body.projectId },
+    });
+    project.update({
+      progress: req.body.progress,
+    });
+    res.status(200).json(req.body.progress);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
 module.exports = router;

@@ -3,7 +3,7 @@ import { MainContainer } from "../index";
 import { Visual, Positioner, BtnWrapper } from "../../components/Banner";
 import { DownIcon } from "../list";
 import Layout from "../../components/Layout";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { ImArrowDown2 } from "react-icons/im";
 import Manager from "../../components/DashBoard/";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,7 +25,6 @@ const Progress = styled.div`
   &::after {
     width: 60%;
     content: "60%";
-
     text-align: center;
     font-size: 25px;
     color: #fff;
@@ -34,6 +33,36 @@ const Progress = styled.div`
     border-radius: 15px;
     border: 1px solid rgb(30, 66, 148);
     background: rgb(30, 66, 148);
+    ${(props) =>
+      props.progress === 0 &&
+      css`
+        width: 20%;
+        content: "20%";
+      `}
+    ${(props) =>
+      props.progress === 1 &&
+      css`
+        width: 40%;
+        content: "40%";
+      `}
+      ${(props) =>
+      props.progress === 2 &&
+      css`
+        width: 60%;
+        content: "60%";
+      `}
+      ${(props) =>
+      props.progress === 3 &&
+      css`
+        width: 80%;
+        content: "80%";
+      `}
+      ${(props) =>
+      props.progress === 4 &&
+      css`
+        width: 100%;
+        content: "100%";
+      `}
   }
 `;
 
@@ -55,9 +84,11 @@ const ProgressBox = styled.div`
   }
 `;
 
-function ProjectManage() {
+const ProjectManage = () => {
+  const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
   const { projectInfo } = useSelector((state) => state.project);
+  console.log(projectInfo);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     function onVisible() {
@@ -69,12 +100,6 @@ function ProjectManage() {
     }
     window.addEventListener("scroll", onVisible);
   }, []);
-  // useEffect(() => {
-  //   if (me.Project === null) {
-  //     alert("진행중인 프로젝트가 없습니다.");
-  //     Router.push("/list");
-  //   }
-  // }, [me]);
   return (
     <>
       <MainContainer>
@@ -91,8 +116,14 @@ function ProjectManage() {
               </DownIcon>
               <ProgressBox>
                 <h2>진행상황</h2>
-                <Progress></Progress>
-                <h3>인원을 모으고 있어요</h3>
+                <Progress progress={projectInfo.progress} />
+                <h3>
+                  {projectInfo.progress === 0 && "인원을 모으고 있어요"}
+                  {projectInfo.progress === 1 && "이제 시작해볼까요?"}
+                  {projectInfo.progress === 2 && "좀만더 힘내세요!"}
+                  {projectInfo.progress === 3 && "고지가 눈앞이에요!"}
+                  {projectInfo.progress === 4 && "고생하셨습니다!"}
+                </h3>
               </ProgressBox>
             </Visual>
           </Positioner>
@@ -101,7 +132,7 @@ function ProjectManage() {
       <Manager data={projectInfo} />
     </>
   );
-}
+};
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async (context) => {

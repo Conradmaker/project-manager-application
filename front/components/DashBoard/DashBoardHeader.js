@@ -1,7 +1,16 @@
-import React from "react";
-import styled, { css } from "styled-components";
+import React, { useCallback } from "react";
+import styled, { css, keyframes } from "styled-components";
 import { MdPlayArrow } from "react-icons/md";
-
+import { useDispatch, useSelector } from "react-redux";
+import { CHANGE_PROGRESS_REQUEST } from "../../reducers/manage";
+const bling = keyframes`
+from{
+  box-shadow:0 0 10px white;
+}
+to{
+  box-shadow:0 0 20px rgb(30, 66, 148) ;
+}
+`;
 const ProgressBtn = styled.div`
   width: 50px;
   height: 50px;
@@ -12,10 +21,12 @@ const ProgressBtn = styled.div`
   align-items: center;
   justify-content: center;
   color: #fff;
+  cursor: pointer;
   ${(props) =>
     props.doing &&
     css`
       background: rgb(30, 66, 148);
+      animation: ${bling} 0.5s ease alternate infinite;
     `}
 `;
 const Progress = styled.ul`
@@ -41,36 +52,72 @@ const DashBoardHeaderBox = styled.div`
   }
 `;
 export default function DashBoardHeader() {
+  const dispatch = useDispatch();
+  const { projectInfo } = useSelector((state) => state.project);
+  const onchangeProgress = useCallback(
+    (value) => {
+      dispatch({
+        type: CHANGE_PROGRESS_REQUEST,
+        data: { progress: value, projectId: projectInfo.id },
+      });
+    },
+    [dispatch, projectInfo]
+  );
   return (
     <DashBoardHeaderBox>
       <h1>프로젝트이름</h1>
-      <Progress doing>
-        <li doing>
-          <ProgressBtn doing>분석</ProgressBtn>
+      <Progress>
+        <li>
+          <ProgressBtn
+            doing={projectInfo.progress === 0}
+            onClick={() => onchangeProgress(0)}
+          >
+            분석
+          </ProgressBtn>
           <i>
             <MdPlayArrow />
           </i>
         </li>
         <li>
-          <ProgressBtn>설계</ProgressBtn>
+          <ProgressBtn
+            doing={projectInfo.progress === 1}
+            onClick={() => onchangeProgress(1)}
+          >
+            설계
+          </ProgressBtn>
           <i>
             <MdPlayArrow />
           </i>
         </li>
         <li>
-          <ProgressBtn>개발</ProgressBtn>
+          <ProgressBtn
+            doing={projectInfo.progress === 2}
+            onClick={() => onchangeProgress(2)}
+          >
+            개발
+          </ProgressBtn>
           <i>
             <MdPlayArrow />
           </i>
         </li>
         <li>
-          <ProgressBtn>운영</ProgressBtn>
+          <ProgressBtn
+            doing={projectInfo.progress === 3}
+            onClick={() => onchangeProgress(3)}
+          >
+            운영
+          </ProgressBtn>
           <i>
             <MdPlayArrow />
           </i>
         </li>
         <li>
-          <ProgressBtn>평가</ProgressBtn>
+          <ProgressBtn
+            doing={projectInfo.progress === 4}
+            onClick={() => onchangeProgress(4)}
+          >
+            평가
+          </ProgressBtn>
         </li>
       </Progress>
     </DashBoardHeaderBox>
