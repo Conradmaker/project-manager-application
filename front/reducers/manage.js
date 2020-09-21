@@ -4,6 +4,10 @@ export const ADD_MEMBER_REQUEST = "manage/ADD_MEMBER_REQUEST";
 export const ADD_MEMBER_SUCCESS = "manage/ADD_MEMBER_SUCCESS";
 export const ADD_MEMBER_ERROR = "manage/ADD_MEMBER_ERROR";
 
+export const REMOVE_MEMBER_REQUEST = "manage/REMOVE_MEMBER_REQUEST";
+export const REMOVE_MEMBER_SUCCESS = "manage/REMOVE_MEMBER_SUCCESS";
+export const REMOVE_MEMBER_ERROR = "manage/REMOVE_MEMBER_ERROR";
+
 export const ADD_PBOARD_REQUEST = "manage/ADD_PBOARD_REQUEST";
 export const ADD_PBOARD_SUCCESS = "manage/ADD_PBOARD_SUCCESS";
 export const ADD_PBOARD_ERROR = "manage/ADD_PBOARD_ERROR";
@@ -16,6 +20,10 @@ const initialState = {
   addMemberLoading: false,
   addMemberDone: false,
   addMemberError: false,
+
+  removeMemberLoading: false,
+  removeMemberDone: false,
+  removeMemberError: false,
 
   addPBoardLoading: false,
   addPBoardDone: false,
@@ -43,6 +51,22 @@ export default function manage(state = initialState, action) {
         draft.addMemberLoading = false;
         draft.addMemberDone = false;
         draft.addMemberError = action.error;
+        break;
+
+      case REMOVE_MEMBER_REQUEST:
+        draft.removeMemberLoading = true;
+        draft.removeMemberDone = false;
+        draft.removeMemberError = false;
+        break;
+      case REMOVE_MEMBER_SUCCESS:
+        draft.removeMemberLoading = false;
+        draft.removeMemberDone = true;
+        draft.removeMemberError = false;
+        break;
+      case REMOVE_MEMBER_ERROR:
+        draft.removeMemberLoading = false;
+        draft.removeMemberDone = false;
+        draft.removeMemberError = action.error;
         break;
 
       case ADD_PBOARD_REQUEST:

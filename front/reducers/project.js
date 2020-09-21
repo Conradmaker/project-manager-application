@@ -2,6 +2,7 @@ import produce from "immer";
 import {
   ADD_MEMBER_SUCCESS,
   ADD_PBOARD_SUCCESS,
+  REMOVE_MEMBER_SUCCESS,
   REMOVE_PBOARD_SUCCESS,
 } from "./manage";
 
@@ -148,6 +149,11 @@ const project = (state = initialState, action) =>
         draft.projectInfo.PBoards.unshift(action.data);
       case REMOVE_PBOARD_SUCCESS:
         draft.projectInfo.PBoards = draft.projectInfo.PBoards.filter(
+          (v) => v.id !== action.data
+        );
+        break;
+      case REMOVE_MEMBER_SUCCESS:
+        draft.projectInfo.Users = draft.projectInfo.Users.filter(
           (v) => v.id !== action.data
         );
         break;

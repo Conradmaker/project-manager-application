@@ -1,7 +1,8 @@
 import Link from "next/link";
-import React from "react";
+import React, { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { MainContainer } from "../../pages/index";
+import { REMOVE_MEMBER_REQUEST } from "../../reducers/manage";
 
 const MemberLists = styled.ul`
   margin-top: 20px;
@@ -59,7 +60,14 @@ const MemberBox = styled.div`
   }
 `;
 export default function MemberList({ data }) {
-  console.log(data);
+  const dispatch = useDispatch();
+  const { me } = useSelector((state) => state.user);
+  const onExile = useCallback(
+    (id) => {
+      dispatch({ type: REMOVE_MEMBER_REQUEST, data: id });
+    },
+    [dispatch]
+  );
   return (
     <>
       <MemberBox>
@@ -73,7 +81,9 @@ export default function MemberList({ data }) {
                 </a>
               </Link>
               <p>-{v.position}</p>
-              <button>추방</button>
+              {me.id === data.leader && me.id !== v.id && (
+                <button onClick={() => onExile(v.id)}>추방</button>
+              )}
             </li>
           ))}
         </MemberLists>

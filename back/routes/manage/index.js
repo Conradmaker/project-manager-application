@@ -4,7 +4,7 @@ const { isLoggedIn } = require("../middlewares");
 
 const router = express.Router();
 
-router.post("/addmember/:userId", isLoggedIn, async (req, res, next) => {
+router.post("/member/:userId", isLoggedIn, async (req, res, next) => {
   try {
     const me = await User.findOne({ where: { id: req.user.id } });
     await User.update(
@@ -19,6 +19,20 @@ router.post("/addmember/:userId", isLoggedIn, async (req, res, next) => {
       include: [{ model: Project }],
     });
     res.status(201).json(fullMember);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
+
+router.delete("/member/:userId", isLoggedIn, async (req, res, next) => {
+  try {
+    const exUser = await User.findOne({ where: { id: req.params.userId } });
+    if (!exUser) {
+      return res.status(401).send("없는 유저입니다.");
+    }
+    await exUser.update({ ProjectId: null });
+    res.status(200).json(parseInt(req.params.userId, 10));
   } catch (e) {
     console.error(e);
     next(e);
