@@ -41,15 +41,12 @@ export default function CommentItem({ data, leader }) {
   }, [dispatch]);
   const onAddMember = useCallback(() => {
     dispatch({ type: ADD_MEMBER_REQUEST, data: data.User.id });
+    alert("팀원이 추가되었어요!");
   }, [dispatch]);
   const onClickMember = useCallback(() => {
     alert("우리팀원이에요!");
   }, []);
-  useEffect(() => {
-    if (addMemberDone) {
-      return alert("팀원이 추가되었어요!");
-    }
-  }, [addMemberDone]);
+  console.log(data, ",", leader);
   return (
     <CommentCard>
       <h1>{data.User.nickname}</h1>
@@ -58,7 +55,7 @@ export default function CommentItem({ data, leader }) {
       {me && (
         <i>
           {leader.leader === me.id &&
-            me.id !== data.id &&
+            me.id !== data.User.id &&
             (leader.id !== data.User.ProjectId ? (
               <MdAddCircle onClick={onAddMember} />
             ) : (

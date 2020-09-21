@@ -84,7 +84,6 @@ const project = (state = initialState, action) =>
         draft.loadProjectsDone = true;
         draft.loadProjectsError = false;
         draft.projectList = action.data;
-        console.log(draft.projectList);
         break;
       case LOAD_PROJECTS_ERROR:
         draft.loadProjectsLoading = false;
@@ -148,6 +147,13 @@ const project = (state = initialState, action) =>
         draft.removeCommentError = action.error;
         break;
       case ADD_MEMBER_SUCCESS:
+        const currentProject = draft.projectList.find(
+          (v) => v.id === action.data.projectId
+        );
+        const currentEComments = currentProject.EComments.find(
+          (v) => v.UserId === action.data.user.id
+        );
+        currentEComments.User.ProjectId = action.data.projectId;
         break;
       case ADD_PBOARD_SUCCESS:
         draft.projectInfo.PBoards.unshift(action.data);

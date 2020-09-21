@@ -17,9 +17,8 @@ router.post("/member/:userId", isLoggedIn, async (req, res, next) => {
       attributes: {
         exclude: ["password"],
       },
-      include: [{ model: Project }],
     });
-    res.status(201).json(fullMember);
+    res.status(201).json({ user: fullMember, projectId: me.ProjectId });
   } catch (e) {
     console.error(e);
     next(e);
