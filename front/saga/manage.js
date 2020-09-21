@@ -19,6 +19,9 @@ const {
   ADD_TODO_REQUEST,
   ADD_TODO_ERROR,
   ADD_TODO_SUCCESS,
+  TOGGLE_TODO_SUCCESS,
+  TOGGLE_TODO_ERROR,
+  TOGGLE_TODO_REQUEST,
 } = require("../reducers/manage");
 //멤버추가
 async function addMemberAPI(data) {
@@ -131,6 +134,24 @@ function* watchRemoveTodo() {
   yield takeEvery(REMOVE_TODO_REQUEST, removeTodo);
 }
 
+//할일토글
+async function toggleTodoAPI(data) {
+  const response = await axios.patch(`/manage/todo/${data}`);
+  return response.data;
+}
+function* toggleTodo(action) {
+  try {
+    const data = yield call(toggleTodoAPI, action.data);
+    yield put({ type: TOGGLE_TODO_SUCCESS, data });
+  } catch (e) {
+    console.error(e);
+    yield put({ type: TOGGLE_TODO_ERROR, error: e.response.data });
+  }
+}
+function* watchToggleTodo() {
+  yield takeEvery(TOGGLE_TODO_REQUEST, toggleTodo);
+}
+
 export default function* manageSaga() {
   yield all([
     fork(watchAddMember),
@@ -139,5 +160,6 @@ export default function* manageSaga() {
     fork(watchRemovePBoard),
     fork(watchAddTodo),
     fork(watchRemoveTodo),
+    fork(watchToggleTodo),
   ]);
 }

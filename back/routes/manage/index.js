@@ -1,4 +1,5 @@
 const express = require("express");
+const { current } = require("immer");
 const { User, Project, PBoard, Todo } = require("../../models");
 const { isLoggedIn } = require("../middlewares");
 
@@ -97,6 +98,23 @@ router.post("/todo", isLoggedIn, async (req, res, next) => {
 router.delete("/todo/:todoId", isLoggedIn, async (req, res, next) => {
   try {
     await Todo.destroy({
+      where: { id: parseInt(req.params.todoId, 10) },
+    });
+    res.status(200).json(parseInt(req.params.todoId, 10));
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
+
+router.patch("/todo/:todoId", isLoggedIn, async (req, res, next) => {
+  try {
+    console.log(parseInt(req.params.todoId, 10));
+    const todo = await Todo.findOne({
+      where: { id: parseInt(req.params.todoId, 10) },
+    });
+    console.log(todo, todo.done);
+    await Todo.update(todo.done ? { done: 0 } : { done: 1 }, {
       where: { id: parseInt(req.params.todoId, 10) },
     });
     res.status(200).json(parseInt(req.params.todoId, 10));

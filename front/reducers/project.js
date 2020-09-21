@@ -6,6 +6,7 @@ import {
   REMOVE_MEMBER_SUCCESS,
   REMOVE_PBOARD_SUCCESS,
   REMOVE_TODO_SUCCESS,
+  TOGGLE_TODO_SUCCESS,
 } from "./manage";
 
 export const CREATE_PROJECT_REQUEST = "project/CREATE_PROJECT_REQUEST";
@@ -169,6 +170,12 @@ const project = (state = initialState, action) =>
         draft.projectInfo.Todos = draft.projectInfo.Todos.filter(
           (v) => v.id !== action.data
         );
+        break;
+      case TOGGLE_TODO_SUCCESS:
+        const selectedTodo = draft.projectInfo.Todos.find(
+          (v) => v.id === action.data
+        );
+        selectedTodo.done = !selectedTodo.done;
         break;
       default:
         break;

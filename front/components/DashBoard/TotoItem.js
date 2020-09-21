@@ -1,7 +1,10 @@
 import React, { useCallback } from "react";
 import styled, { css } from "styled-components";
 import { MdDone, MdDelete } from "react-icons/md";
-import { REMOVE_TODO_REQUEST } from "../../reducers/manage";
+import {
+  REMOVE_TODO_REQUEST,
+  TOGGLE_TODO_REQUEST,
+} from "../../reducers/manage";
 import { useDispatch } from "react-redux";
 
 export const Remove = styled.div`
@@ -69,9 +72,14 @@ function TodoItem({ data }) {
   const onRemove = useCallback(() => {
     dispatch({ type: REMOVE_TODO_REQUEST, data: data.id });
   }, [dispatch]);
+  const onToggle = useCallback(() => {
+    dispatch({ type: TOGGLE_TODO_REQUEST, data: data.id });
+  }, [dispatch]);
   return (
     <TodoItemBlock>
-      <CheckCircle done={data.done}>{data.done && <MdDone />}</CheckCircle>
+      <CheckCircle onClick={onToggle} done={data.done}>
+        {data.done && <MdDone />}
+      </CheckCircle>
       <Text done={data.done}>{data.content}</Text>
       <Remove onClick={onRemove}>
         <MdDelete />

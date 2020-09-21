@@ -24,6 +24,10 @@ export const REMOVE_TODO_REQUEST = "manage/REMOVE_TODO_REQUEST";
 export const REMOVE_TODO_SUCCESS = "manage/REMOVE_TODO_SUCCESS";
 export const REMOVE_TODO_ERROR = "manage/REMOVE_TODO_ERROR";
 
+export const TOGGLE_TODO_REQUEST = "manage/TOGGLE_TODO_REQUEST";
+export const TOGGLE_TODO_SUCCESS = "manage/TOGGLE_TODO_SUCCESS";
+export const TOGGLE_TODO_ERROR = "manage/TOGGLE_TODO_ERROR";
+
 const initialState = {
   addMemberLoading: false,
   addMemberDone: false,
@@ -48,6 +52,10 @@ const initialState = {
   removeTodoLoading: false,
   removeTodoDone: false,
   removeTodoError: false,
+
+  toggleTodoLoading: false,
+  toggleTodoDone: false,
+  toggleTodoError: false,
 };
 
 export default function manage(state = initialState, action) {
@@ -147,6 +155,22 @@ export default function manage(state = initialState, action) {
         draft.removeTodoLoading = false;
         draft.removeTodoDone = false;
         draft.removeTodoError = action.error;
+        break;
+
+      case TOGGLE_TODO_REQUEST:
+        draft.toggleTodoLoading = true;
+        draft.toggleTodoDone = false;
+        draft.toggleTodoError = false;
+        break;
+      case TOGGLE_TODO_SUCCESS:
+        draft.toggleTodoLoading = false;
+        draft.toggleTodoDone = true;
+        draft.toggleTodoError = false;
+        break;
+      case TOGGLE_TODO_ERROR:
+        draft.toggleTodoLoading = false;
+        draft.toggleTodoDone = false;
+        draft.toggleTodoError = action.error;
         break;
       default:
         break;
