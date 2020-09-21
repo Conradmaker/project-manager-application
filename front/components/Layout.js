@@ -7,6 +7,7 @@ import PopForm from "./PopForm";
 import useInput from "../hooks/useInput";
 import { useDispatch, useSelector } from "react-redux";
 import { LOG_OUT_REQUEST } from "../reducers/user";
+import Router from "next/router";
 
 const Search = styled.div`
   width: 1100px;
@@ -195,7 +196,10 @@ export default function Layout({ visible, children }) {
   };
   const [color, setColor] = useState(false);
   const [search, onChange] = useInput("");
-  const onLogout = () => dispatch({ type: LOG_OUT_REQUEST });
+  const onLogout = () => {
+    Router.push("/");
+    dispatch({ type: LOG_OUT_REQUEST });
+  };
   useEffect(() => {
     function onScroll() {
       if (window.pageYOffset > 700) {

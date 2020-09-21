@@ -35,7 +35,6 @@ const CommentCard = styled.article`
 export default function CommentItem({ data, leader }) {
   const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
-  const { addMemberDone } = useSelector((state) => state.manage);
   const onRemoveComment = useCallback(() => {
     dispatch({ type: REMOVE_COMMENT_REQUEST, data: data.id });
   }, [dispatch]);
@@ -46,7 +45,6 @@ export default function CommentItem({ data, leader }) {
   const onClickMember = useCallback(() => {
     alert("우리팀원이에요!");
   }, []);
-  console.log(data, ",", leader);
   return (
     <CommentCard>
       <h1>{data.User.nickname}</h1>

@@ -74,7 +74,7 @@ export default function MemberList({ data }) {
         <h1>멤버</h1>
         <MemberLists>
           {data.Users.map((v) => (
-            <li>
+            <li key={v.id}>
               <Link href="">
                 <a>
                   <span>{v.nickname}</span>

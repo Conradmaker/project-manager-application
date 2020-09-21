@@ -7,7 +7,7 @@ import styled, { css } from "styled-components";
 import { ImArrowDown2 } from "react-icons/im";
 import Manager from "../../components/DashBoard/";
 import { useDispatch, useSelector } from "react-redux";
-import Router, { useRouter } from "next/router";
+import Router from "next/router";
 import { LOAD_PROJECT_REQUEST } from "../../reducers/project";
 import wrapper from "../../store/configureStore";
 import { END } from "redux-saga";
@@ -88,7 +88,6 @@ const ProjectManage = () => {
   const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
   const { projectInfo } = useSelector((state) => state.project);
-  console.log(projectInfo);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     function onVisible() {
@@ -100,6 +99,12 @@ const ProjectManage = () => {
     }
     window.addEventListener("scroll", onVisible);
   }, []);
+  useEffect(() => {
+    if (!me) {
+      Router.replace("/");
+    }
+  }, [me]);
+
   return (
     <>
       <MainContainer>
@@ -137,19 +142,21 @@ const ProjectManage = () => {
 export const getServerSideProps = wrapper.getServerSideProps(
   async (context) => {
     console.log("SSR시작");
-    console.log(context.req.headers);
     const cookie = context.req ? context.req.headers.cookie : "";
     axios.defaults.headers.Cookie = "";
     if (context.req && cookie) {
       axios.defaults.headers.Cookie = cookie;
     }
+
+    context.store.dispatch({
+      type: LOAD_MY_INFO_REQUEST,
+    });
+
     context.store.dispatch({
       type: LOAD_PROJECT_REQUEST,
       data: context.params.id,
     });
-    context.store.dispatch({
-      type: LOAD_MY_INFO_REQUEST,
-    });
+
     context.store.dispatch(END);
     console.log("SSR끝");
     await context.store.sagaTask.toPromise();

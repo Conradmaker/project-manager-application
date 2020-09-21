@@ -68,7 +68,7 @@ export default function List() {
         <h1>취업용 프로젝트</h1>
         <ItemContainer>
           {projectList.map((data) => (
-            <ListItem data={data} />
+            <ListItem key={data.id} data={data} />
           ))}
         </ItemContainer>
       </Lists>
