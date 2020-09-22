@@ -1,6 +1,6 @@
 const express = require("express");
 const { current } = require("immer");
-const { User, Project, PBoard, Todo } = require("../../models");
+const { User, Project, PBoard, Todo, Schedule } = require("../../models");
 const { isLoggedIn } = require("../middlewares");
 
 const router = express.Router();
@@ -132,6 +132,27 @@ router.patch("/progress", isLoggedIn, async (req, res, next) => {
       progress: req.body.progress,
     });
     res.status(200).json(req.body.progress);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
+
+router.post("/schedule", isLoggedIn, async (req, res, next) => {
+  try {
+    const project = await Project.findOne({
+      where: { id: req.body.projectId },
+    });
+    if (!project) {
+      return res.status(401).send("해당프로젝트가없어요");
+    }
+    const schedule = await Schedule.create({
+      title: req.body.title,
+      start: req.body.start,
+      end: req.body.end,
+      ProjectId: req.body.projectId,
+    });
+    res.status(200).json(schedule);
   } catch (e) {
     console.error(e);
     next(e);

@@ -7,6 +7,7 @@ import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
 import PopForm from "../PopForm";
+import { useSelector } from "react-redux";
 
 const DashBCalender = styled.div`
   grid-column: 1/7;
@@ -48,20 +49,38 @@ const localizer = dateFnsLocalizer({
 });
 
 export default function Calender() {
+  const { Schedules } = useSelector((state) => state.project.projectInfo);
   const [addopen, setAddopen] = useState(false);
+  const array = [];
+  for (let i = 0; i < Schedules.length; i++) {
+    array.push({
+      title: Schedules[i].title,
+      allDay: true,
+      start: new Date(Schedules[i].start),
+      end: new Date(Schedules[i].end),
+    });
+  }
+  console.log(array);
+  console.log([
+    {
+      title: "출근",
+      allDay: true,
+      start: new Date(2020, 8, 14, 10, 0),
+      end: new Date(2020, 8, 20, 17, 0),
+    },
+    {
+      title: "출근2",
+      allDay: true,
+      start: new Date(2020, 8, 20, 10, 0),
+      end: new Date(2020, 8, 30, 17, 0),
+    },
+  ]);
   return (
     <DashBCalender>
       <BoardTitle>프로젝트 일정</BoardTitle>
       <Calendar
         localizer={localizer}
-        events={[
-          {
-            title: "출근",
-            allDay: true,
-            start: new Date(2020, 8, 14, 10, 0),
-            end: new Date(2020, 8, 20, 17, 0),
-          },
-        ]}
+        events={array}
         view="month"
         views={["month"]}
         startAccessor="start"

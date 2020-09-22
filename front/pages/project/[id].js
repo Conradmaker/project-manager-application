@@ -7,7 +7,7 @@ import styled, { css } from "styled-components";
 import { ImArrowDown2 } from "react-icons/im";
 import Manager from "../../components/DashBoard/";
 import { useDispatch, useSelector } from "react-redux";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { LOAD_PROJECT_REQUEST } from "../../reducers/project";
 import wrapper from "../../store/configureStore";
 import { END } from "redux-saga";
@@ -85,7 +85,9 @@ const ProgressBox = styled.div`
 `;
 
 const ProjectManage = () => {
+  console.log("렌더링시작");
   const dispatch = useDispatch();
+  const router = useRouter();
   const { me } = useSelector((state) => state.user);
   const { projectInfo } = useSelector((state) => state.project);
   const [visible, setVisible] = useState(false);
@@ -158,8 +160,14 @@ export const getServerSideProps = wrapper.getServerSideProps(
     });
 
     context.store.dispatch(END);
+
     console.log("SSR끝");
     await context.store.sagaTask.toPromise();
+    if (!context.store.getState().user.me) {
+      context.res.writeHead(302, { Location: "/" });
+      context.res.end();
+    }
+    console.log("me:", context.store.getState().user.me);
   }
 );
 export default ProjectManage;

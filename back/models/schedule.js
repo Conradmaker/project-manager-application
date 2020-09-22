@@ -1,8 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
   const Schedule = sequelize.define("Schedule", {
     title: { type: DataTypes.STRING(30), allowNull: false },
-    startAt: { type: DataTypes.DATE, allowNull: false },
-    endAt: { type: DataTypes.DATE, allowNull: false },
+    start: { type: DataTypes.STRING(30), allowNull: false },
+    end: { type: DataTypes.STRING(30), allowNull: false },
+    allDay: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
   });
 
   Schedule.associate = (db) => {

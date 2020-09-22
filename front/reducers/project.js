@@ -2,6 +2,7 @@ import produce from "immer";
 import {
   ADD_MEMBER_SUCCESS,
   ADD_PBOARD_SUCCESS,
+  ADD_SCHEDULE_SUCCESS,
   ADD_TODO_SUCCESS,
   CHANGE_PROGRESS_SUCCESS,
   REMOVE_MEMBER_SUCCESS,
@@ -187,6 +188,8 @@ const project = (state = initialState, action) =>
       case CHANGE_PROGRESS_SUCCESS:
         draft.projectInfo.progress = action.data;
         break;
+      case ADD_SCHEDULE_SUCCESS:
+        draft.projectInfo.Schedules.push(action.data);
       default:
         break;
     }

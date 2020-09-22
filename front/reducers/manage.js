@@ -32,6 +32,10 @@ export const CHANGE_PROGRESS_REQUEST = "manage/CHANGE_PROGRESS_REQUEST";
 export const CHANGE_PROGRESS_SUCCESS = "manage/CHANGE_PROGRESS_SUCCESS";
 export const CHANGE_PROGRESS_ERROR = "manage/CHANGE_PROGRESS_ERROR";
 
+export const ADD_SCHEDULE_REQUEST = "manage/ADD_SCHEDULE_REQUEST";
+export const ADD_SCHEDULE_SUCCESS = "manage/ADD_SCHEDULE_SUCCESS";
+export const ADD_SCHEDULE_ERROR = "manage/ADD_SCHEDULE_ERROR";
+
 const initialState = {
   addMemberLoading: false,
   addMemberDone: false,
@@ -64,6 +68,10 @@ const initialState = {
   changeProgressLoading: false,
   changeProgressDone: false,
   changeProgressError: false,
+
+  addScheduleLoading: false,
+  addScheduleDone: false,
+  addScheduleError: false,
 };
 
 export default function manage(state = initialState, action) {
@@ -195,6 +203,22 @@ export default function manage(state = initialState, action) {
         draft.changeProgressLoading = false;
         draft.changeProgressDone = false;
         draft.changeProgressError = action.error;
+        break;
+
+      case ADD_SCHEDULE_REQUEST:
+        draft.addScheduleLoading = true;
+        draft.addScheduleDone = false;
+        draft.addScheduleError = false;
+        break;
+      case ADD_SCHEDULE_SUCCESS:
+        draft.addScheduleLoading = false;
+        draft.addScheduleDone = true;
+        draft.addScheduleError = false;
+        break;
+      case ADD_SCHEDULE_ERROR:
+        draft.addScheduleLoading = false;
+        draft.addScheduleDone = false;
+        draft.addScheduleError = action.error;
         break;
       default:
         break;

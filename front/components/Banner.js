@@ -103,12 +103,7 @@ export default function Banner() {
             </a>
           </Link>
           {me ? (
-            <Link
-              href={{
-                pathname: "/project/[slug]",
-                query: { slug: 1 },
-              }}
-            >
+            <Link href={{ pathname: `/project/${me.ProjectId}` }}>
               <a>
                 <div>
                   <i>
