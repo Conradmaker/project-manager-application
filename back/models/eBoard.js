@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     "EBoard",
     {
       content: { type: DataTypes.TEXT, allowNull: false },
+      kind: { type: DataTypes.INTEGER, allowNull: false },
     },
     {
       charset: "utf8mb4", //mb4-이모티콘

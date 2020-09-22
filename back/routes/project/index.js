@@ -26,6 +26,7 @@ router.post("/create", isLoggedIn, async (req, res, next) => {
       content: req.body.content,
       ProjectId: project.id,
       UserId: req.user.id,
+      kind: req.body.kind,
     });
 
     const projectList = await EBoard.findOne({

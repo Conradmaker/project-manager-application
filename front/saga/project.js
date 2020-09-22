@@ -16,6 +16,9 @@ const {
   LOAD_PROJECT_SUCCESS,
   LOAD_PROJECT_ERROR,
   LOAD_PROJECT_REQUEST,
+  LOAD_CATAGORY_SUCCESS,
+  LOAD_CATAGORY_ERROR,
+  LOAD_CATAGORY_REQUEST,
 } = require("../reducers/project");
 
 //프로젝트 생성
@@ -52,6 +55,24 @@ function* loadProjects() {
 }
 function* watchLoadProjects() {
   yield takeEvery(LOAD_PROJECTS_REQUEST, loadProjects);
+}
+
+//카테고리 리스트 불러오기
+async function loadCatagoryAPI(data) {
+  const response = await axios.get(`/project/load/catagory/${data}`);
+  return response.data;
+}
+function* loadCatagory(action) {
+  try {
+    const data = yield call(loadCatagoryAPI, action.data);
+    yield put({ type: LOAD_CATAGORY_SUCCESS, data });
+  } catch (e) {
+    console.error(e);
+    yield put({ type: LOAD_CATAGORY_ERROR, error: e.response.data });
+  }
+}
+function* watchLoadCatagory() {
+  yield takeEvery(LOAD_CATAGORY_REQUEST, loadCatagory);
 }
 
 //댓글작성
@@ -116,5 +137,6 @@ export default function* projectSaga() {
     fork(watchLoadProjects),
     fork(watchAddComment),
     fork(watchRemoveComment),
+    fork(watchLoadCatagory),
   ]);
 }

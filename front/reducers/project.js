@@ -31,6 +31,10 @@ export const LOAD_PROJECT_REQUEST = "project/LOAD_PROJECT_REQUEST";
 export const LOAD_PROJECT_SUCCESS = "project/LOAD_PROJECT_SUCCESS";
 export const LOAD_PROJECT_ERROR = "project/LOAD_PROJECT_ERROR";
 
+export const LOAD_CATAGORY_REQUEST = "project/LOAD_CATAGORY_REQUEST";
+export const LOAD_CATAGORY_SUCCESS = "project/LOAD_CATAGORY_SUCCESS";
+export const LOAD_CATAGORY_ERROR = "project/LOAD_CATAGORY_ERROR";
+
 const initialState = {
   createProjectLoading: false,
   createProjectDone: false,
@@ -51,6 +55,10 @@ const initialState = {
   removeCommentLoading: false,
   removeCommentDone: false,
   removeCommentError: false,
+
+  loadCatagoryLoading: false,
+  loadCatagoryDone: false,
+  loadCatagoryError: null,
 
   projectList: [],
   projectInfo: {},
@@ -106,6 +114,22 @@ const project = (state = initialState, action) =>
         draft.loadProjectLoading = false;
         draft.loadProjectDone = false;
         draft.loadProjectError = action.error;
+        break;
+      case LOAD_CATAGORY_REQUEST:
+        draft.loadCatagoryLoading = true;
+        draft.loadCatagoryDone = false;
+        draft.loadCatagoryError = false;
+        break;
+      case LOAD_CATAGORY_SUCCESS:
+        draft.loadCatagoryLoading = false;
+        draft.loadCatagoryDone = true;
+        draft.loadCatagoryError = false;
+        draft.projectList = action.data;
+        break;
+      case LOAD_CATAGORY_ERROR:
+        draft.loadCatagoryLoading = false;
+        draft.loadCatagoryDone = false;
+        draft.loadCatagoryError = action.error;
         break;
       case ADD_COMMENT_REQUEST:
         draft.addCommentLoading = true;

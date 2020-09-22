@@ -263,27 +263,27 @@ export default function Layout({ visible, children }) {
         </TopHeader>
         <BottomHeader>
           <ul>
-            <Link href="/list">
+            <Link href="/catagory/1">
               <a>
                 <li>취업용</li>
               </a>
             </Link>
-            <Link href="">
+            <Link href="/catagory/2">
               <a>
                 <li>사이드</li>
               </a>
             </Link>
-            <Link href="">
+            <Link href="/catagory/3">
               <a>
                 <li>토이</li>
               </a>
             </Link>
-            <Link href="">
+            <Link href="/catagory/4">
               <a>
                 <li>스타트업</li>
               </a>
             </Link>
-            <Link href="">
+            <Link href="/catagory/5">
               <a>
                 <li>기업</li>
               </a>

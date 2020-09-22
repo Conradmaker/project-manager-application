@@ -103,16 +103,32 @@ export default function Banner() {
             </a>
           </Link>
           {me ? (
-            <Link href={{ pathname: `/project/${me.ProjectId}` }}>
-              <a>
-                <div>
-                  <i>
-                    <FaTools />
-                  </i>
-                  <span>프로젝트 관리</span>
-                </div>
-              </a>
-            </Link>
+            me.ProjectId ? (
+              <Link href={{ pathname: `/project/${me.ProjectId}` }}>
+                <a>
+                  <div>
+                    <i>
+                      <FaTools />
+                    </i>
+                    <span>프로젝트 관리</span>
+                  </div>
+                </a>
+              </Link>
+            ) : (
+              <Link
+                onClick={alert("진행중인 프로젝트가 없어요")}
+                href={{ pathname: `/` }}
+              >
+                <a>
+                  <div>
+                    <i>
+                      <FaTools />
+                    </i>
+                    <span>프로젝트 관리</span>
+                  </div>
+                </a>
+              </Link>
+            )
           ) : (
             <Link href="/">
               <a>

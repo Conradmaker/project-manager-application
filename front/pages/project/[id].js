@@ -153,12 +153,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
     context.store.dispatch({
       type: LOAD_MY_INFO_REQUEST,
     });
-
     context.store.dispatch({
       type: LOAD_PROJECT_REQUEST,
-      data: context.params.id,
+      data: context.query.id,
     });
-
     context.store.dispatch(END);
 
     console.log("SSR끝");
