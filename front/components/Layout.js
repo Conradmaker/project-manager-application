@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LOG_OUT_REQUEST } from "../reducers/user";
 import Router from "next/router";
 import { SEARCH_PROJECT_REQUEST } from "../reducers/project";
+import LOGO from "../assets/img/logo.png";
 
 const Search = styled.div`
   width: 1100px;
@@ -221,7 +222,9 @@ export default function Layout({ visible, children }) {
         <TopHeader colors={color}>
           <Link href="/">
             <a>
-              <div>Project</div>
+              <div>
+                <img src={LOGO} alt="로고" height="80px" />
+              </div>
             </a>
           </Link>
           <ul>

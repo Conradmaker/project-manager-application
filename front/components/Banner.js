@@ -5,6 +5,7 @@ import { FaTools } from "react-icons/fa";
 import { RiTeamFill } from "react-icons/ri";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import LOGO from "../assets/img/logo.png";
 
 export const BtnWrapper = styled.div`
   position: absolute;
@@ -58,7 +59,7 @@ export const Visual = styled.div`
   align-items: center;
 
   h1 {
-    margin-top: 160px;
+    margin-top: 60px;
     align-self: center;
 
     font-size: 55px;
@@ -90,7 +91,9 @@ export default function Banner() {
     <div>
       <Positioner />
       <Visual>
-        <h1>내일은 뭐할까</h1>
+        <h1>
+          <img src={LOGO} alt="로고" height="200px" />
+        </h1>
         <BtnWrapper>
           <Link href="/list">
             <a>
@@ -98,7 +101,7 @@ export default function Banner() {
                 <i>
                   <RiTeamFill />
                 </i>
-                <span>팀원모집</span>
+                <span>팀원모집/조회</span>
               </div>
             </a>
           </Link>
