@@ -35,6 +35,10 @@ export const LOAD_CATAGORY_REQUEST = "project/LOAD_CATAGORY_REQUEST";
 export const LOAD_CATAGORY_SUCCESS = "project/LOAD_CATAGORY_SUCCESS";
 export const LOAD_CATAGORY_ERROR = "project/LOAD_CATAGORY_ERROR";
 
+export const SEARCH_PROJECT_REQUEST = "project/SEARCH_PROJECT_REQUEST";
+export const SEARCH_PROJECT_SUCCESS = "project/SEARCH_PROJECT_SUCCESS";
+export const SEARCH_PROJECT_ERROR = "project/SEARCH_PROJECT_ERROR";
+
 const initialState = {
   createProjectLoading: false,
   createProjectDone: false,
@@ -60,6 +64,10 @@ const initialState = {
   loadCatagoryDone: false,
   loadCatagoryError: null,
 
+  searchProjectLoading: false,
+  searchProjectDone: false,
+  searchProjectError: null,
+
   projectList: [],
   projectInfo: {},
 };
@@ -67,6 +75,22 @@ const initialState = {
 const project = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
+      case SEARCH_PROJECT_REQUEST:
+        draft.searchProjectLoading = true;
+        draft.searchProjectDone = false;
+        draft.searchProjectError = false;
+        break;
+      case SEARCH_PROJECT_SUCCESS:
+        draft.searchProjectLoading = false;
+        draft.searchProjectDone = true;
+        draft.searchProjectError = false;
+        draft.projectList = action.data;
+        break;
+      case SEARCH_PROJECT_ERROR:
+        draft.searchProjectLoading = false;
+        draft.searchProjectDone = false;
+        draft.searchProjectError = action.error;
+        break;
       case CREATE_PROJECT_REQUEST:
         draft.createProjectLoading = true;
         draft.createProjectDone = false;

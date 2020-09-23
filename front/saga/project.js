@@ -19,6 +19,9 @@ const {
   LOAD_CATAGORY_SUCCESS,
   LOAD_CATAGORY_ERROR,
   LOAD_CATAGORY_REQUEST,
+  SEARCH_PROJECT_SUCCESS,
+  SEARCH_PROJECT_ERROR,
+  SEARCH_PROJECT_REQUEST,
 } = require("../reducers/project");
 
 //프로젝트 생성
@@ -37,6 +40,27 @@ function* createProject(action) {
 }
 function* watchCreateProject() {
   yield takeEvery(CREATE_PROJECT_REQUEST, createProject);
+}
+
+//프로젝트 검색결과 불러오기
+async function searchProjectAPI(data) {
+  console.log("시작");
+  const response = await axios.get(
+    `/project/search/${encodeURIComponent(data)}`
+  );
+  return response.data;
+}
+function* searchProject(action) {
+  try {
+    const data = yield call(searchProjectAPI, action.data);
+    yield put({ type: SEARCH_PROJECT_SUCCESS, data });
+  } catch (e) {
+    console.error(e);
+    yield put({ type: SEARCH_PROJECT_ERROR, error: e.response.data });
+  }
+}
+function* watchsearchProject() {
+  yield takeEvery(SEARCH_PROJECT_REQUEST, searchProject);
 }
 
 //프로젝트 리스트 불러오기
@@ -138,5 +162,6 @@ export default function* projectSaga() {
     fork(watchAddComment),
     fork(watchRemoveComment),
     fork(watchLoadCatagory),
+    fork(watchsearchProject),
   ]);
 }

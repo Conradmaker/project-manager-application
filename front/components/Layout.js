@@ -8,6 +8,7 @@ import useInput from "../hooks/useInput";
 import { useDispatch, useSelector } from "react-redux";
 import { LOG_OUT_REQUEST } from "../reducers/user";
 import Router from "next/router";
+import { SEARCH_PROJECT_REQUEST } from "../reducers/project";
 
 const Search = styled.div`
   width: 1100px;
@@ -196,6 +197,10 @@ export default function Layout({ visible, children }) {
   };
   const [color, setColor] = useState(false);
   const [search, onChange] = useInput("");
+  const onSearch = (e) => {
+    e.preventDefault();
+    Router.push(`/search/${search}`);
+  };
   const onLogout = () => {
     Router.push("/");
     dispatch({ type: LOG_OUT_REQUEST });
@@ -295,9 +300,9 @@ export default function Layout({ visible, children }) {
         </BottomHeader>
         <Search open={searchOpen}>
           <h1>어떤 팀을 찾고있나요?</h1>
-          <form>
+          <form onSubmit={onSearch}>
             <input type="text" value={search} onChange={onChange} />
-            <button>
+            <button type="submit">
               <VscSearch />
             </button>
           </form>

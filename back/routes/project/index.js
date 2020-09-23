@@ -2,6 +2,7 @@ const express = require("express");
 const loadRouter = require("./load");
 const { Project, EBoard, User, EComment } = require("../../models");
 const { isLoggedIn } = require("../middlewares");
+const { Op } = require("sequelize");
 
 const router = express.Router();
 
@@ -43,6 +44,41 @@ router.post("/create", isLoggedIn, async (req, res, next) => {
       ],
     });
     res.status(201).json(projectList);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
+
+//검색
+router.get("/search/:keyword", async (req, res, next) => {
+  try {
+    const project = await Project.findAll({
+      where: {
+        name: { [Op.like]: "%" + decodeURIComponent(req.params.keyword) + "%" },
+      },
+    });
+    const array = [];
+    for (let i = 0; i < project.length; i++) {
+      array[i] = project[i].id;
+    }
+    const result = await EBoard.findAll({
+      where: { ProjectId: array },
+      order: [["createdAt", "DESC"]],
+      include: [
+        {
+          model: EComment,
+          include: [
+            { model: User, attributes: ["id", "nickname", "ProjectId"] },
+          ],
+        },
+        {
+          model: Project,
+        },
+        { model: User, attributes: ["id", "nickname", "ProjectId"] },
+      ],
+    });
+    res.status(200).json(result);
   } catch (e) {
     console.error(e);
     next(e);
