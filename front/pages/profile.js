@@ -6,6 +6,10 @@ import styled from "styled-components";
 import Router from "next/router";
 import { useSelector } from "react-redux";
 import Link from "next/link";
+import wrapper from "../store/configureStore";
+import { END } from "redux-saga";
+import { LOAD_MY_INFO_REQUEST } from "../reducers/user";
+import axios from "axios";
 
 const InformationBox = styled.ul`
   margin-top: 200px;
@@ -50,7 +54,7 @@ const InformationBox = styled.ul`
     margin: 0;
   }
 `;
-export default function profile() {
+export default function Profile() {
   const { me } = useSelector((state) => state.user);
   useEffect(() => {
     if (!me) {
@@ -90,3 +94,19 @@ export default function profile() {
     </MainContainer>
   );
 }
+export const getServerSideProps = wrapper.getServerSideProps(
+  async (context) => {
+    console.log("SSR시작");
+    const cookie = context.req ? context.req.headers.cookie : "";
+    axios.defaults.headers.Cookie = "";
+    if (context.req && cookie) {
+      axios.defaults.headers.Cookie = cookie;
+    }
+    context.store.dispatch({
+      type: LOAD_MY_INFO_REQUEST,
+    });
+    context.store.dispatch(END);
+    console.log("SSR끝");
+    await context.store.sagaTask.toPromise();
+  }
+);
