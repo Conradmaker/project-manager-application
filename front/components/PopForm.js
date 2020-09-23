@@ -46,7 +46,7 @@ const SmallBox = styled.div`
   animation: ${slide} 0.3s ease-in;
 `;
 
-const FormContainer = styled.div`
+export const FormContainer = styled.div`
   position: fixed;
   top: 0;
   bottom: 0;
