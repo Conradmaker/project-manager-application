@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import { REMOVE_MEMBER_REQUEST } from "../../reducers/manage";
@@ -87,6 +87,7 @@ export default function MemberList({ data }) {
   const [gradeOpen, setGradeOpen] = useState(false);
   const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
+  const { gradeMemberDone } = useSelector((state) => state.manage);
   const onExile = useCallback(
     (id) => {
       dispatch({ type: REMOVE_MEMBER_REQUEST, data: id });
@@ -99,6 +100,12 @@ export default function MemberList({ data }) {
   const onGrade = useCallback(() => {
     setGradeOpen(true);
   }, [setGradeOpen]);
+  useEffect(() => {
+    if (gradeMemberDone) {
+      alert("반영되었습니다.");
+      setGradeOpen(false);
+    }
+  }, [gradeMemberDone]);
   return (
     <>
       <MemberBox>
@@ -121,11 +128,13 @@ export default function MemberList({ data }) {
         <EndBtn onClick={onEnd}>
           <BiError /> 종료
         </EndBtn>
-        <EndBtn style={{ right: "150px" }} onClick={onGrade}>
-          <BiUserVoice /> 평가
-        </EndBtn>
+        {!gradeMemberDone && (
+          <EndBtn style={{ right: "150px" }} onClick={onGrade}>
+            <BiUserVoice /> 평가
+          </EndBtn>
+        )}
         {endOpen && <EndForm close={setEndOpen} />}
-        {gradeOpen && <GradeForm close={setGradeOpen} />}
+        {gradeOpen && !gradeMemberDone && <GradeForm close={setGradeOpen} />}
       </MemberBox>
     </>
   );

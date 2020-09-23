@@ -36,6 +36,10 @@ export const ADD_SCHEDULE_REQUEST = "manage/ADD_SCHEDULE_REQUEST";
 export const ADD_SCHEDULE_SUCCESS = "manage/ADD_SCHEDULE_SUCCESS";
 export const ADD_SCHEDULE_ERROR = "manage/ADD_SCHEDULE_ERROR";
 
+export const GRADE_MEMBER_REQUEST = "manage/GRADE_MEMBER_REQUEST";
+export const GRADE_MEMBER_SUCCESS = "manage/GRADE_MEMBER_SUCCESS";
+export const GRADE_MEMBER_ERROR = "manage/GRADE_MEMBER_ERROR";
+
 const initialState = {
   addMemberLoading: false,
   addMemberDone: false,
@@ -72,6 +76,10 @@ const initialState = {
   addScheduleLoading: false,
   addScheduleDone: false,
   addScheduleError: false,
+
+  gradeMemberLoading: false,
+  gradeMemberDone: false,
+  gradeMemberError: false,
 };
 
 export default function manage(state = initialState, action) {
@@ -219,6 +227,22 @@ export default function manage(state = initialState, action) {
         draft.addScheduleLoading = false;
         draft.addScheduleDone = false;
         draft.addScheduleError = action.error;
+        break;
+
+      case GRADE_MEMBER_REQUEST:
+        draft.gradeMemberLoading = true;
+        draft.gradeMemberDone = false;
+        draft.gradeMemberError = false;
+        break;
+      case GRADE_MEMBER_SUCCESS:
+        draft.gradeMemberLoading = false;
+        draft.gradeMemberDone = true;
+        draft.gradeMemberError = false;
+        break;
+      case GRADE_MEMBER_ERROR:
+        draft.gradeMemberLoading = false;
+        draft.gradeMemberDone = false;
+        draft.gradeMemberError = action.error;
         break;
       default:
         break;

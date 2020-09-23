@@ -158,4 +158,29 @@ router.post("/schedule", isLoggedIn, async (req, res, next) => {
     next(e);
   }
 });
+
+router.post("/grade", isLoggedIn, async (req, res, next) => {
+  try {
+    const gradeArray = req.body;
+    console.log(gradeArray);
+    gradeArray.forEach(async (element) => {
+      for (const key in element) {
+        const elements = element[key];
+        console.log(key, elements);
+        const user = await User.findOne({ where: { id: key } });
+        console.log(user.grade, elements);
+        const resultGrade = (user.grade + parseInt(elements, 10)) / 2;
+        console.log(resultGrade);
+        await User.update(
+          { grade: resultGrade.toFixed(1) },
+          { where: { id: key } }
+        );
+      }
+    });
+    res.status(200).send("반영되었습니다.");
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
 module.exports = router;

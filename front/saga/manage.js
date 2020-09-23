@@ -28,6 +28,9 @@ const {
   ADD_SCHEDULE_REQUEST,
   ADD_SCHEDULE_SUCCESS,
   ADD_SCHEDULE_ERROR,
+  GRADE_MEMBER_SUCCESS,
+  GRADE_MEMBER_ERROR,
+  GRADE_MEMBER_REQUEST,
 } = require("../reducers/manage");
 //멤버추가
 async function addMemberAPI(data) {
@@ -194,6 +197,24 @@ function* watchAddSchedule() {
   yield takeEvery(ADD_SCHEDULE_REQUEST, addSchedule);
 }
 
+//멤버평가
+async function gradeMemberAPI(data) {
+  const response = await axios.post(`/manage/grade/`, data);
+  return response.data;
+}
+function* gradeMember(action) {
+  try {
+    const data = yield call(gradeMemberAPI, action.data);
+    yield put({ type: GRADE_MEMBER_SUCCESS, data });
+  } catch (e) {
+    console.error(e);
+    yield put({ type: GRADE_MEMBER_ERROR, error: e.response.data });
+  }
+}
+function* watchGradeMember() {
+  yield takeEvery(GRADE_MEMBER_REQUEST, gradeMember);
+}
+
 export default function* manageSaga() {
   yield all([
     fork(watchAddMember),
@@ -205,5 +226,6 @@ export default function* manageSaga() {
     fork(watchToggleTodo),
     fork(watchChangeProgress),
     fork(watchAddSchedule),
+    fork(watchGradeMember),
   ]);
 }

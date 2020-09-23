@@ -68,7 +68,7 @@ export default function Catagory() {
       </MainContainer>
       <Lists>
         <h1>
-          {router.query.keyword}에 대한 {projectList.length}개의 검색결과
+          '{router.query.keyword}'에 대한 {projectList.length}개의 검색결과
         </h1>
         <ItemContainer>
           {projectList.map((data) => (

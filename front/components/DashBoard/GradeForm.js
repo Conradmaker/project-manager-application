@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { FormContainer } from "../PopForm";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Message } from "./EndForm";
+import { GRADE_MEMBER_REQUEST } from "../../reducers/manage";
 
 const EndSubmit = styled.form`
   padding: 30px 0;
@@ -77,10 +78,12 @@ function GradeInput({ v, i }) {
   );
 }
 export default function GradeForm({ close }) {
+  const dispatch = useDispatch();
   const { Users } = useSelector((state) => state.project.projectInfo);
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(initialState);
+    dispatch({ type: GRADE_MEMBER_REQUEST, data: initialState });
   };
   return (
     <FormContainer>
