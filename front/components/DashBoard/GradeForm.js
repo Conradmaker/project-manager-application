@@ -82,7 +82,6 @@ export default function GradeForm({ close }) {
   const { Users } = useSelector((state) => state.project.projectInfo);
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(initialState);
     dispatch({ type: GRADE_MEMBER_REQUEST, data: initialState });
   };
   return (

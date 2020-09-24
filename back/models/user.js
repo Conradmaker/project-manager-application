@@ -8,6 +8,11 @@ module.exports = (sequelize, DataTypes) => {
       grade: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
       position: { type: DataTypes.STRING(30), allowNull: false },
       completed: { type: DataTypes.INTEGER, defaultValue: 0 },
+      gradedone: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
     },
     {
       charset: "utf8",

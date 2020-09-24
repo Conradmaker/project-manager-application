@@ -87,7 +87,9 @@ export default function MemberList({ data }) {
   const [gradeOpen, setGradeOpen] = useState(false);
   const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
-  const { gradeMemberDone } = useSelector((state) => state.manage);
+  const { gradeMemberDone, gradeMemberError } = useSelector(
+    (state) => state.manage
+  );
   const onExile = useCallback(
     (id) => {
       dispatch({ type: REMOVE_MEMBER_REQUEST, data: id });
@@ -105,7 +107,10 @@ export default function MemberList({ data }) {
       alert("반영되었습니다.");
       setGradeOpen(false);
     }
-  }, [gradeMemberDone]);
+    if (gradeMemberError) {
+      alert(gradeMemberError);
+    }
+  }, [gradeMemberDone, gradeMemberError]);
   return (
     <>
       <MemberBox>
@@ -128,7 +133,7 @@ export default function MemberList({ data }) {
         <EndBtn onClick={onEnd}>
           <BiError /> 종료
         </EndBtn>
-        {!gradeMemberDone && (
+        {!gradeMemberDone && !me.gradedone && (
           <EndBtn style={{ right: "150px" }} onClick={onGrade}>
             <BiUserVoice /> 평가
           </EndBtn>

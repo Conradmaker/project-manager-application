@@ -161,6 +161,11 @@ router.post("/schedule", isLoggedIn, async (req, res, next) => {
 
 router.post("/grade", isLoggedIn, async (req, res, next) => {
   try {
+    const me = await User.findOne({ where: req.user.id });
+    if (me.gradedone) {
+      return res.status(403).send("평가는 한번만 가능합니다.");
+    }
+    await me.update({ gradedone: true });
     const gradeArray = req.body;
     console.log(gradeArray);
     gradeArray.forEach(async (element) => {

@@ -68,7 +68,10 @@ router.get("/:projectId", async (req, res, next) => {
     const project = await Project.findOne({
       where: { id: req.params.projectId },
       include: [
-        { model: User, attributes: ["id", "nickname", "position"] },
+        {
+          model: User,
+          attributes: ["id", "nickname", "position"],
+        },
         {
           model: PBoard,
           include: { model: User, attributes: ["nickname", "id"] },

@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LOG_OUT_REQUEST } from "../reducers/user";
 import Router from "next/router";
 import { SEARCH_PROJECT_REQUEST } from "../reducers/project";
-import LOGO from "../assets/img/logo.png";
+import LOGO from "../assets/img/logo2.png";
 
 const Search = styled.div`
   width: 1100px;
@@ -223,7 +223,7 @@ export default function Layout({ visible, children }) {
           <Link href="/">
             <a>
               <div>
-                <img src={LOGO} alt="로고" height="80px" />
+                <img src={LOGO} alt="로고" height="50px" />
               </div>
             </a>
           </Link>
