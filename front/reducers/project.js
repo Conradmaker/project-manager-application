@@ -5,6 +5,7 @@ import {
   ADD_SCHEDULE_SUCCESS,
   ADD_TODO_SUCCESS,
   CHANGE_PROGRESS_SUCCESS,
+  END_PROJECT_SUCCESS,
   REMOVE_MEMBER_SUCCESS,
   REMOVE_PBOARD_SUCCESS,
   REMOVE_TODO_SUCCESS,
@@ -238,6 +239,9 @@ const project = (state = initialState, action) =>
         break;
       case ADD_SCHEDULE_SUCCESS:
         draft.projectInfo.Schedules.push(action.data);
+      case END_PROJECT_SUCCESS:
+        draft.projectInfo = null;
+        break;
       default:
         break;
     }

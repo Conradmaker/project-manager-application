@@ -1,6 +1,13 @@
 const express = require("express");
 const { current } = require("immer");
-const { User, Project, PBoard, Todo, Schedule } = require("../../models");
+const {
+  User,
+  Project,
+  PBoard,
+  Todo,
+  Schedule,
+  EBoard,
+} = require("../../models");
 const { isLoggedIn } = require("../middlewares");
 
 const router = express.Router();
@@ -183,6 +190,27 @@ router.post("/grade", isLoggedIn, async (req, res, next) => {
       }
     });
     res.status(200).send("반영되었습니다.");
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
+
+router.post("/end", isLoggedIn, async (req, res, next) => {
+  try {
+    const userData = req.body.users;
+    userData.forEach(async (v) => {
+      const user = await User.findOne({ where: { id: v.id } });
+      return await User.update(
+        { ProjectId: null, gradedone: false, completed: user.completed + 1 },
+        { where: { id: user.id } }
+      );
+    });
+    await EBoard.destroy({ where: { ProjectId: req.body.projectId } });
+    await Schedule.destroy({ where: { ProjectId: req.body.projectId } });
+    await PBoard.destroy({ where: { ProjectId: req.body.projectId } });
+    await Todo.destroy({ where: { ProjectId: req.body.projectId } });
+    res.status(200).send("**프로젝트 진행 종료**");
   } catch (e) {
     console.error(e);
     next(e);

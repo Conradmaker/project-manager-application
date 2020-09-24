@@ -40,6 +40,10 @@ export const GRADE_MEMBER_REQUEST = "manage/GRADE_MEMBER_REQUEST";
 export const GRADE_MEMBER_SUCCESS = "manage/GRADE_MEMBER_SUCCESS";
 export const GRADE_MEMBER_ERROR = "manage/GRADE_MEMBER_ERROR";
 
+export const END_PROJECT_REQUEST = "manage/END_PROJECT_REQUEST";
+export const END_PROJECT_SUCCESS = "manage/END_PROJECT_SUCCESS";
+export const END_PROJECT_ERROR = "manage/END_PROJECT_ERROR";
+
 const initialState = {
   addMemberLoading: false,
   addMemberDone: false,
@@ -80,6 +84,10 @@ const initialState = {
   gradeMemberLoading: false,
   gradeMemberDone: false,
   gradeMemberError: false,
+
+  endProjectLoading: false,
+  endProjectDone: false,
+  endProjectError: false,
 };
 
 export default function manage(state = initialState, action) {
@@ -243,6 +251,22 @@ export default function manage(state = initialState, action) {
         draft.gradeMemberLoading = false;
         draft.gradeMemberDone = false;
         draft.gradeMemberError = action.error;
+        break;
+
+      case END_PROJECT_REQUEST:
+        draft.endProjectLoading = true;
+        draft.endProjectDone = false;
+        draft.endProjectError = false;
+        break;
+      case END_PROJECT_SUCCESS:
+        draft.endProjectLoading = false;
+        draft.endProjectDone = true;
+        draft.endProjectError = false;
+        break;
+      case END_PROJECT_ERROR:
+        draft.endProjectLoading = false;
+        draft.endProjectDone = false;
+        draft.endProjectError = action.error;
         break;
       default:
         break;

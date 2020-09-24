@@ -130,11 +130,16 @@ export default function MemberList({ data }) {
             </li>
           ))}
         </MemberLists>
-        <EndBtn onClick={onEnd}>
-          <BiError /> 종료
-        </EndBtn>
+        {data.leader === me.id ? (
+          <EndBtn onClick={onEnd}>
+            <BiError /> 종료
+          </EndBtn>
+        ) : null}
         {!gradeMemberDone && !me.gradedone && (
-          <EndBtn style={{ right: "150px" }} onClick={onGrade}>
+          <EndBtn
+            onClick={onGrade}
+            style={data.leader === me.id && { right: "150px" }}
+          >
             <BiUserVoice /> 평가
           </EndBtn>
         )}

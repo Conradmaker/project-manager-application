@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { FormContainer } from "../PopForm";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import Router from "next/router";
+import { END_PROJECT_REQUEST } from "../../reducers/manage";
 
 const EndSubmit = styled.div`
   width: 330px;
@@ -41,6 +44,15 @@ export const Message = styled.span`
   bottom: 10px;
 `;
 export default function EndForm({ close }) {
+  const { projectInfo } = useSelector((state) => state.project);
+  const dispatch = useDispatch();
+  const onEnd = useCallback(() => {
+    Router.replace("/");
+    dispatch({
+      type: END_PROJECT_REQUEST,
+      data: { users: projectInfo.Users, projectId: projectInfo.id },
+    });
+  }, [dispatch]);
   return (
     <FormContainer>
       <EndSubmit>
@@ -49,8 +61,15 @@ export default function EndForm({ close }) {
           종료하시겠습니까?
         </h1>
         <div>
-          <button style={{ background: "#aa326f" }}>네</button>
-          <button style={{ background: "rgb(30, 66, 148)" }}>아뇨</button>
+          <button onClick={onEnd} style={{ background: "#aa326f" }}>
+            네
+          </button>
+          <button
+            onClick={() => close(false)}
+            style={{ background: "rgb(30, 66, 148)" }}
+          >
+            아뇨
+          </button>
         </div>
       </EndSubmit>
       <Message onClick={() => close(false)}>

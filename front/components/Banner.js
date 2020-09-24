@@ -118,12 +118,9 @@ export default function Banner() {
                 </a>
               </Link>
             ) : (
-              <Link
-                onClick={alert("진행중인 프로젝트가 없어요")}
-                href={{ pathname: `/` }}
-              >
+              <Link href={{ pathname: `/` }}>
                 <a>
-                  <div>
+                  <div onClick={() => alert("진행중인 프로젝트가 없어요")}>
                     <i>
                       <FaTools />
                     </i>
