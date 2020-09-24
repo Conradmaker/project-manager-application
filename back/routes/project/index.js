@@ -1,6 +1,6 @@
 const express = require("express");
 const loadRouter = require("./load");
-const { Project, EBoard, User, EComment } = require("../../models");
+const { Project, EBoard, User, EComment, Image } = require("../../models");
 const { isLoggedIn } = require("../middlewares");
 const { Op } = require("sequelize");
 const path = require("path");
@@ -39,8 +39,10 @@ router.post(
   }
 );
 
-router.post("/create", isLoggedIn, async (req, res, next) => {
+router.post("/create", isLoggedIn, upload.none(), async (req, res, next) => {
   try {
+    console.log(req.body.image, req.body);
+
     //유저가 진행중인 프로젝트가 있는지 검사
     const user = await User.findOne({ where: { id: req.user.id } });
     if (user.ProjectId) {
@@ -55,7 +57,10 @@ router.post("/create", isLoggedIn, async (req, res, next) => {
     });
 
     await user.update({ ProjectId: project.id });
-
+    //이미지추가
+    if (req.body.image) {
+      await Image.create({ ProjectId: project.id, src: req.body.image });
+    }
     await EBoard.create({
       content: req.body.content,
       ProjectId: project.id,
@@ -72,7 +77,9 @@ router.post("/create", isLoggedIn, async (req, res, next) => {
         },
         {
           model: Project,
+          include: { model: Image, attributes: ["src"] },
         },
+
         { model: User, attributes: ["id", "nickname"] },
       ],
     });
@@ -95,6 +102,7 @@ router.get("/search/:keyword", async (req, res, next) => {
     for (let i = 0; i < project.length; i++) {
       array[i] = project[i].id;
     }
+    const user = await User.findAll({ where: { ProjectId: array } });
     const result = await EBoard.findAll({
       where: { ProjectId: array },
       order: [["createdAt", "DESC"]],
@@ -107,6 +115,7 @@ router.get("/search/:keyword", async (req, res, next) => {
         },
         {
           model: Project,
+          include: { model: Image, attributes: ["src"] },
         },
         { model: User, attributes: ["id", "nickname", "ProjectId"] },
       ],

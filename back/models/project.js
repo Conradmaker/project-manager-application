@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     db.Project.hasMany(db.Schedule);
     db.Project.hasMany(db.PBoard);
     db.Project.hasMany(db.Todo);
+    db.Project.hasMany(db.Image);
     db.Project.belongsToMany(db.Hashtag, { through: "ProjectHashtag" });
   };
   return Project;

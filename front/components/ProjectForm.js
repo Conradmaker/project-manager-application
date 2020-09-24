@@ -18,7 +18,7 @@ const RadioLabel = styled.label`
   font-size: 15px !important;
 `;
 const Image = styled.img`
-  width: 100%;
+  max-width: 500px;
   max-height: 50%;
   border: 1px solid gray;
   align-self: center;
@@ -49,12 +49,17 @@ export default function ProjectForm({ close }) {
   const [genre, onChangeGenre] = useInput(false);
   const onSubmit = (e) => {
     e.preventDefault();
+    const fd = new FormData();
     image.forEach((v) => {
-      FormData.append("image", v);
+      fd.append("image", v);
     });
+    fd.append("name", name);
+    fd.append("kind", genre);
+    fd.append("number", number);
+    fd.append("content", content);
     return dispatch({
       type: CREATE_PROJECT_REQUEST,
-      data: { name, kind: genre, number, content },
+      data: fd,
     });
   };
   useEffect(() => {

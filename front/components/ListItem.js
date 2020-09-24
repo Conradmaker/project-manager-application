@@ -4,9 +4,15 @@ import Detail from "./Detail";
 
 const ImgBox = styled.div`
   width: 100%;
-  min-height: 100px;
+  height: 180px;
   background: #e5e5e5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   img {
+    width: auto;
+    min-height: 100px;
+    max-height: 180px;
   }
 `;
 
@@ -19,7 +25,7 @@ const ItemBox = styled.li`
   overflow: hidden;
 
   h2 {
-    font-size: 25px;
+    font-size: 20px;
     margin: 15px 0;
   }
   p {
@@ -56,10 +62,13 @@ export default function ListItem({ data }) {
     <>
       <ItemBox>
         <ImgBox>
-          <img src="" alt="" />
+          <img
+            src={`http://localhost:3030/${data.Project.Images[0].src}`}
+            alt=""
+          />
         </ImgBox>
         <h2>{data.Project.name}</h2>
-        <p>{data.content}</p>
+        <p>희망인원: {data.Project.number} 명</p>
         <button onClick={onOpen}>더보기</button>
       </ItemBox>
       {open && <Detail close={setOpen} data={data} />}

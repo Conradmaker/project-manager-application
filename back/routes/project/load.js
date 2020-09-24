@@ -7,6 +7,7 @@ const {
   Schedule,
   PBoard,
   Todo,
+  Image,
 } = require("../../models");
 
 const router = express.Router();
@@ -25,6 +26,7 @@ router.get("/", async (req, res, next) => {
         },
         {
           model: Project,
+          include: { model: Image, attributes: ["src"] },
         },
         { model: User, attributes: ["id", "nickname", "ProjectId"] },
       ],
@@ -51,6 +53,7 @@ router.get("/catagory/:kind", async (req, res, next) => {
         },
         {
           model: Project,
+          include: { model: Image, attributes: ["src"] },
         },
         { model: User, attributes: ["id", "nickname", "ProjectId"] },
       ],
