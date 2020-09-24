@@ -26,6 +26,9 @@ export const Summary = styled.div`
     font-size: 30px;
     color: rgb(30, 66, 148);
   }
+  span {
+    line-height: 1.5;
+  }
 `;
 export const BtnBox = styled.div`
   div {

@@ -1,9 +1,13 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Btn, BtnBox, Form, Input, Summary } from "./LoginForm";
 import styled from "styled-components";
 import useInput from "../hooks/useInput";
 import { useDispatch, useSelector } from "react-redux";
-import { CREATE_PROJECT_REQUEST } from "../reducers/project";
+import {
+  CREATE_PROJECT_REQUEST,
+  UPLOAD_IMAGES_REQUEST,
+} from "../reducers/project";
+import IMG from "../assets/img/logo.png";
 
 const Textarea = styled.textarea`
   width: 400px;
@@ -13,9 +17,30 @@ const Textarea = styled.textarea`
 const RadioLabel = styled.label`
   font-size: 15px !important;
 `;
+const Image = styled.img`
+  width: 100%;
+  max-height: 50%;
+  border: 1px solid gray;
+  align-self: center;
+`;
 export default function ProjectForm({ close }) {
+  const imageInput = useRef();
+  const onClickImageUpload = useCallback(() => {
+    imageInput.current.click();
+  }, [imageInput.current]);
+  const onChangeImages = useCallback((e) => {
+    console.log("images", e.target.files);
+    const imageFormData = new FormData();
+    [].forEach.call(e.target.files, (f) => {
+      imageFormData.append("image", f);
+    });
+    dispatch({
+      type: UPLOAD_IMAGES_REQUEST,
+      data: imageFormData,
+    });
+  });
   const dispatch = useDispatch();
-  const { createProjectDone, createProjectError } = useSelector(
+  const { createProjectDone, createProjectError, image } = useSelector(
     (state) => state.project
   );
   const [name, onChangeName] = useInput("");
@@ -24,6 +49,9 @@ export default function ProjectForm({ close }) {
   const [genre, onChangeGenre] = useInput(false);
   const onSubmit = (e) => {
     e.preventDefault();
+    image.forEach((v) => {
+      FormData.append("image", v);
+    });
     return dispatch({
       type: CREATE_PROJECT_REQUEST,
       data: { name, kind: genre, number, content },
@@ -41,10 +69,16 @@ export default function ProjectForm({ close }) {
     <>
       <Summary>
         <h1>Project</h1>
-        <h2>프로젝트를 위한 열정!</h2>
-        <h2>당신의 여정을 응원합니다.</h2>
+        <span>미리보기</span>
+        {image.map((v) => (
+          <Image
+            src={`http://localhost:3030/${v}`}
+            width="100%"
+            alter={v}
+          ></Image>
+        ))}
       </Summary>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={onSubmit} encType="multipart/form-data">
         <label htmlFor="name">프로젝트명</label>
         <Input name="name" type="text" value={name} onChange={onChangeName} />
         <label htmlFor="genre">종류</label>
@@ -118,6 +152,17 @@ export default function ProjectForm({ close }) {
           onChange={onChangeContent}
           placeholder="해쉬태그를 함께 적으면 사람들이 더 빨리 찾아요! (ex. #리액트 #노드js)"
         />
+        <input
+          type="file"
+          name="image"
+          multiple
+          hidden
+          ref={imageInput}
+          onChange={onChangeImages}
+        />
+        <button type="button" onClick={onClickImageUpload}>
+          이미지 업로드
+        </button>
         <BtnBox>
           <div>
             <Btn type="submit">등록</Btn>

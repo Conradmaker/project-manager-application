@@ -6,7 +6,7 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const passportConfig = require("./passport");
-
+const path = require("path");
 const userRouter = require("./routes/user");
 const projectRouter = require("./routes/project");
 const manageRouter = require("./routes/manage");
@@ -22,6 +22,7 @@ db.sequelize
   .catch(console.error);
 
 passportConfig();
+app.use("/", express.static(path.join(__dirname, "uploads")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));

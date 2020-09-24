@@ -40,6 +40,10 @@ export const SEARCH_PROJECT_REQUEST = "project/SEARCH_PROJECT_REQUEST";
 export const SEARCH_PROJECT_SUCCESS = "project/SEARCH_PROJECT_SUCCESS";
 export const SEARCH_PROJECT_ERROR = "project/SEARCH_PROJECT_ERROR";
 
+export const UPLOAD_IMAGES_REQUEST = "project/UPLOAD_IMAGES_REQUEST";
+export const UPLOAD_IMAGES_SUCCESS = "project/UPLOAD_IMAGES_SUCCESS";
+export const UPLOAD_IMAGES_ERROR = "project/UPLOAD_IMAGES_ERROR";
+
 const initialState = {
   createProjectLoading: false,
   createProjectDone: false,
@@ -69,8 +73,13 @@ const initialState = {
   searchProjectDone: false,
   searchProjectError: null,
 
+  uploadImagesLoading: false,
+  uploadImagesDone: false,
+  uploadImagesError: null,
+
   projectList: [],
   projectInfo: {},
+  image: [],
 };
 
 const project = (state = initialState, action) =>
@@ -155,6 +164,22 @@ const project = (state = initialState, action) =>
         draft.loadCatagoryLoading = false;
         draft.loadCatagoryDone = false;
         draft.loadCatagoryError = action.error;
+        break;
+      case UPLOAD_IMAGES_REQUEST:
+        draft.uploadImagesLoading = true;
+        draft.uploadImagesDone = false;
+        draft.uploadImagesError = false;
+        break;
+      case UPLOAD_IMAGES_SUCCESS:
+        draft.uploadImagesLoading = false;
+        draft.uploadImagesDone = true;
+        draft.uploadImagesError = false;
+        draft.image = action.data;
+        break;
+      case UPLOAD_IMAGES_ERROR:
+        draft.uploadImagesLoading = false;
+        draft.uploadImagesDone = false;
+        draft.uploadImagesError = action.error;
         break;
       case ADD_COMMENT_REQUEST:
         draft.addCommentLoading = true;

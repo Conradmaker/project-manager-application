@@ -3,8 +3,41 @@ const loadRouter = require("./load");
 const { Project, EBoard, User, EComment } = require("../../models");
 const { isLoggedIn } = require("../middlewares");
 const { Op } = require("sequelize");
+const path = require("path");
+const fs = require("fs");
+const multer = require("multer");
+
+try {
+  fs.accessSync("uploads");
+} catch (e) {
+  console.log("폴더 생성");
+  fs.mkdirSync("uploads");
+}
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, res, done) {
+      done(null, "uploads");
+    },
+    filename(req, file, done) {
+      const ext = path.extname(file.originalname);
+      const basename = path.basename(file.originalname, ext);
+      done(null, basename + new Date().getTime() + ext);
+    },
+  }),
+  limits: { fileSize: 20 * 1024 * 1024 },
+});
 
 const router = express.Router();
+
+router.post(
+  "/image",
+  isLoggedIn,
+  upload.array("image"),
+  async (req, res, next) => {
+    console.log(req.files);
+    res.json(req.files.map((v) => v.filename));
+  }
+);
 
 router.post("/create", isLoggedIn, async (req, res, next) => {
   try {

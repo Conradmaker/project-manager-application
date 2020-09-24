@@ -22,6 +22,9 @@ const {
   SEARCH_PROJECT_SUCCESS,
   SEARCH_PROJECT_ERROR,
   SEARCH_PROJECT_REQUEST,
+  UPLOAD_IMAGES_ERROR,
+  UPLOAD_IMAGES_SUCCESS,
+  UPLOAD_IMAGES_REQUEST,
 } = require("../reducers/project");
 
 //프로젝트 생성
@@ -154,6 +157,25 @@ function* loadProject(action) {
 function* watchLoadProject() {
   yield takeEvery(LOAD_PROJECT_REQUEST, loadProject);
 }
+
+//이미지 업로드
+async function uploadImagesAPI(data) {
+  const response = await axios.post(`/project/image`, data);
+  return response.data;
+}
+function* uploadImages(action) {
+  try {
+    const data = yield call(uploadImagesAPI, action.data);
+    console.log(data);
+    yield put({ type: UPLOAD_IMAGES_SUCCESS, data });
+  } catch (e) {
+    console.error(e);
+    yield put({ type: UPLOAD_IMAGES_ERROR, error: e.response.data });
+  }
+}
+function* watchUploadImages() {
+  yield takeEvery(UPLOAD_IMAGES_REQUEST, uploadImages);
+}
 export default function* projectSaga() {
   yield all([
     fork(watchCreateProject),
@@ -163,5 +185,6 @@ export default function* projectSaga() {
     fork(watchRemoveComment),
     fork(watchLoadCatagory),
     fork(watchsearchProject),
+    fork(watchUploadImages),
   ]);
 }
