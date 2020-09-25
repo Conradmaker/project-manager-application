@@ -58,7 +58,6 @@ router.get("/catagory/:kind", async (req, res, next) => {
         { model: User, attributes: ["id", "nickname", "ProjectId"] },
       ],
     });
-    console.log(projectList);
     res.status(200).json(projectList);
   } catch (e) {
     console.error(e);
@@ -86,7 +85,6 @@ router.get("/:projectId", async (req, res, next) => {
     if (!project) {
       return res.status(401).send("프로젝트가 없습니다.");
     }
-    console.log(project);
     res.status(200).json(project);
   } catch (e) {
     console.error(e);

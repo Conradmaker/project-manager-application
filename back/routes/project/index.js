@@ -34,15 +34,12 @@ router.post(
   isLoggedIn,
   upload.array("image"),
   async (req, res, next) => {
-    console.log(req.files);
     res.json(req.files.map((v) => v.filename));
   }
 );
 
 router.post("/create", isLoggedIn, upload.none(), async (req, res, next) => {
   try {
-    console.log(req.body.image, req.body);
-
     //유저가 진행중인 프로젝트가 있는지 검사
     const user = await User.findOne({ where: { id: req.user.id } });
     if (user.ProjectId) {

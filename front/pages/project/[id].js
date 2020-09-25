@@ -85,7 +85,6 @@ const ProgressBox = styled.div`
 `;
 
 const ProjectManage = () => {
-  console.log("렌더링시작");
   const dispatch = useDispatch();
   const router = useRouter();
   const { me } = useSelector((state) => state.user);
@@ -165,7 +164,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
       context.res.writeHead(302, { Location: "/" });
       context.res.end();
     }
-    console.log("me:", context.store.getState().user.me);
   }
 );
 export default ProjectManage;

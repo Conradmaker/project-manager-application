@@ -243,7 +243,6 @@ const project = (state = initialState, action) =>
         );
         break;
       case ADD_TODO_SUCCESS:
-        console.log(action.data);
         const todo = [...draft.projectInfo.Todos];
         todo.unshift(action.data);
         draft.projectInfo.Todos = todo;

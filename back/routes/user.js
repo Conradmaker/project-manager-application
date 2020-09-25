@@ -79,11 +79,8 @@ router.post("/signup", isNotLoggedIn, async (req, res, next) => {
 
 //로그아웃
 router.post("/logout", isLoggedIn, (req, res) => {
-  console.log(1);
   req.logout();
-  console.log(2);
   req.session.destroy();
-  console.log(3);
   res.send("ok");
 });
 

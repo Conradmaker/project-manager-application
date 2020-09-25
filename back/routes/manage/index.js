@@ -115,11 +115,9 @@ router.delete("/todo/:todoId", isLoggedIn, async (req, res, next) => {
 
 router.patch("/todo/:todoId", isLoggedIn, async (req, res, next) => {
   try {
-    console.log(parseInt(req.params.todoId, 10));
     const todo = await Todo.findOne({
       where: { id: parseInt(req.params.todoId, 10) },
     });
-    console.log(todo, todo.done);
     await Todo.update(todo.done ? { done: 0 } : { done: 1 }, {
       where: { id: parseInt(req.params.todoId, 10) },
     });
@@ -174,15 +172,11 @@ router.post("/grade", isLoggedIn, async (req, res, next) => {
     }
     await me.update({ gradedone: true });
     const gradeArray = req.body;
-    console.log(gradeArray);
     gradeArray.forEach(async (element) => {
       for (const key in element) {
         const elements = element[key];
-        console.log(key, elements);
         const user = await User.findOne({ where: { id: key } });
-        console.log(user.grade, elements);
         const resultGrade = (user.grade + parseInt(elements, 10)) / 2;
-        console.log(resultGrade);
         await User.update(
           { grade: resultGrade.toFixed(1) },
           { where: { id: key } }

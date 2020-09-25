@@ -29,7 +29,6 @@ const {
 
 //프로젝트 생성
 async function createProjectAPI(data) {
-  console.log(data);
   const response = await axios.post("/project/create", data);
   return response.data;
 }
@@ -146,10 +145,8 @@ async function loadProjectAPI(data) {
 function* loadProject(action) {
   try {
     const data = yield call(loadProjectAPI, action.data);
-    console.log(data);
     yield put({ type: LOAD_PROJECT_SUCCESS, data });
   } catch (e) {
-    console.log("시작");
     console.error(e);
     yield put({ type: LOAD_PROJECT_ERROR, error: e.response.data });
   }
@@ -166,7 +163,6 @@ async function uploadImagesAPI(data) {
 function* uploadImages(action) {
   try {
     const data = yield call(uploadImagesAPI, action.data);
-    console.log(data);
     yield put({ type: UPLOAD_IMAGES_SUCCESS, data });
   } catch (e) {
     console.error(e);

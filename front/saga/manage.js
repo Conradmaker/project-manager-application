@@ -60,7 +60,6 @@ async function removeMemberAPI(data) {
 }
 function* removeMember(action) {
   try {
-    console.log(data);
     const data = yield call(removeMemberAPI, action.data);
     yield put({ type: REMOVE_MEMBER_SUCCESS, data });
   } catch (e) {

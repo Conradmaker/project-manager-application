@@ -56,7 +56,6 @@ export default function Catagory() {
   useEffect(() => {
     dispatch({ type: LOAD_CATAGORY_REQUEST, data: router.query.id });
   }, [dispatch, router]);
-  console.log(router.query.id);
   return (
     <Layout>
       <MainContainer>

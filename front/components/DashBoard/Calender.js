@@ -60,21 +60,6 @@ export default function Calender() {
       end: new Date(Schedules[i].end),
     });
   }
-  console.log(array);
-  console.log([
-    {
-      title: "출근",
-      allDay: true,
-      start: new Date(2020, 8, 14, 10, 0),
-      end: new Date(2020, 8, 20, 17, 0),
-    },
-    {
-      title: "출근2",
-      allDay: true,
-      start: new Date(2020, 8, 20, 10, 0),
-      end: new Date(2020, 8, 30, 17, 0),
-    },
-  ]);
   return (
     <DashBCalender>
       <BoardTitle>프로젝트 일정</BoardTitle>
