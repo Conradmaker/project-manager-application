@@ -86,7 +86,7 @@ export default function Profile() {
             </li>
             <li>
               <h2>완료 프로젝트</h2>
-              <p>3개</p>
+              <p>{me.completed}개</p>
             </li>
           </InformationBox>
         </Visual>

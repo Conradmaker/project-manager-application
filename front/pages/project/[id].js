@@ -84,7 +84,7 @@ const ProgressBox = styled.div`
   }
 `;
 
-const ProjectManage = () => {
+function Manage() {
   const { me } = useSelector((state) => state.user);
   const { projectInfo } = useSelector((state) => state.project);
   const [visible, setVisible] = useState(false);
@@ -98,12 +98,11 @@ const ProjectManage = () => {
     }
     window.addEventListener("scroll", onVisible);
   }, []);
-
-  useEffect(() => {
-    if (!me) {
-      Router.replace("/");
-    }
-  }, [me]);
+  // useEffect(() => {
+  //   if (!me) {
+  //     Router.replace("/");
+  //   }
+  // }, [me]);
 
   return (
     <>
@@ -137,7 +136,7 @@ const ProjectManage = () => {
       <Manager data={projectInfo} />
     </>
   );
-};
+}
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async (context) => {
@@ -153,11 +152,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
     });
     context.store.dispatch({
       type: LOAD_PROJECT_REQUEST,
-      data: parseInt(context.query.id, 10),
+      data: context.query.id,
     });
 
     context.store.dispatch(END);
-    console.log("11");
     console.log("SSR끝");
     await context.store.sagaTask.toPromise();
     if (!context.store.getState().user.me) {
@@ -166,4 +164,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
     }
   }
 );
-export default ProjectManage;
+export default Manage;

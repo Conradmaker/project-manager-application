@@ -5,6 +5,7 @@ import { LOAD_MY_INFO_REQUEST } from "../reducers/user";
 import wrapper from "../store/configureStore";
 import { END } from "redux-saga";
 import axios from "axios";
+import { LOAD_PROJECT_REQUEST } from "../reducers/project";
 
 export const MainContainer = styled.div`
   width: 100%;
@@ -33,6 +34,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
     }
     context.store.dispatch({
       type: LOAD_MY_INFO_REQUEST,
+    });
+    context.store.dispatch({
+      type: LOAD_PROJECT_REQUEST,
+      data: 1,
     });
     context.store.dispatch(END);
     console.log("SSR끝");
