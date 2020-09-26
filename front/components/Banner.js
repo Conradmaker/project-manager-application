@@ -6,6 +6,7 @@ import { RiTeamFill } from "react-icons/ri";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import LOGO from "../assets/img/logo.png";
+import Router from "next/router";
 
 export const BtnWrapper = styled.div`
   position: absolute;
@@ -90,6 +91,7 @@ const Blockwrapper = styled.i`
 `;
 export default function Banner() {
   const { me } = useSelector((state) => state.user);
+
   return (
     <div>
       <Positioner />
@@ -108,7 +110,7 @@ export default function Banner() {
           </Link>
           {me ? (
             me.ProjectId ? (
-              <Link href={`http://localhost:3000/project/${me.ProjectId}`}>
+              <Link href={`/project/${me.ProjectId}`}>
                 <a>
                   <div>
                     <i>

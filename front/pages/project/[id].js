@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { MainContainer } from "../index";
 import { Visual, Positioner, BtnWrapper } from "../../components/Banner";
 import { DownIcon } from "../list";
@@ -84,7 +84,7 @@ const ProgressBox = styled.div`
   }
 `;
 
-function Manage() {
+function Project() {
   const { me } = useSelector((state) => state.user);
   const { projectInfo } = useSelector((state) => state.project);
   const [visible, setVisible] = useState(false);
@@ -140,7 +140,7 @@ function Manage() {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async (context) => {
-    console.log(context.query);
+    console.log(context.params);
     console.log("SSR시작");
     const cookie = context.req ? context.req.headers.cookie : "";
     axios.defaults.headers.Cookie = "";
@@ -152,9 +152,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
     });
     context.store.dispatch({
       type: LOAD_PROJECT_REQUEST,
-      data: context.query.id,
+      data: context.params.id,
     });
-
+    console.log(context.store.getState().user.me);
     context.store.dispatch(END);
     console.log("SSR끝");
     await context.store.sagaTask.toPromise();
@@ -164,4 +164,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
     }
   }
 );
-export default Manage;
+export default Project;

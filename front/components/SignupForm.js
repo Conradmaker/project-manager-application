@@ -35,7 +35,10 @@ export default function SignupForm({ close }) {
     [email, position, password, nickname, passwordCheck]
   );
   useEffect(() => {
-    signUpDone && Router.push("/");
+    if (signUpDone) {
+      close(false);
+      Router.push("/");
+    }
     signUpError && alert(signUpError);
   }, [signUpDone, signUpError]);
   return (

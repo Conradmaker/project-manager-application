@@ -22,6 +22,7 @@ export default function ScheduleForm({ close }) {
           projectId: projectInfo.id,
         },
       });
+      close(false);
     },
     [projectInfo, title, start, end]
   );

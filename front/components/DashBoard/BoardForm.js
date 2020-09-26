@@ -24,6 +24,7 @@ export default function SignupForm({ close, id }) {
       type: ADD_PBOARD_REQUEST,
       data: { ProjectId: id, title, content, genre },
     });
+    close(false);
   };
   return (
     <>
