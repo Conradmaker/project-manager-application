@@ -263,6 +263,7 @@ const project = (state = initialState, action) =>
         break;
       case ADD_SCHEDULE_SUCCESS:
         draft.projectInfo.Schedules.push(action.data);
+        break;
       case END_PROJECT_SUCCESS:
         draft.projectInfo = null;
         break;

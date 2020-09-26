@@ -94,19 +94,3 @@ export default function Profile() {
     </MainContainer>
   );
 }
-export const getServerSideProps = wrapper.getServerSideProps(
-  async (context) => {
-    console.log("SSR시작");
-    const cookie = context.req ? context.req.headers.cookie : "";
-    axios.defaults.headers.Cookie = "";
-    if (context.req && cookie) {
-      axios.defaults.headers.Cookie = cookie;
-    }
-    context.store.dispatch({
-      type: LOAD_MY_INFO_REQUEST,
-    });
-    context.store.dispatch(END);
-    console.log("SSR끝");
-    await context.store.sagaTask.toPromise();
-  }
-);

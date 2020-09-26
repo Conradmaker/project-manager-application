@@ -6,13 +6,13 @@ import Layout from "../../components/Layout";
 import styled, { css } from "styled-components";
 import { ImArrowDown2 } from "react-icons/im";
 import Manager from "../../components/DashBoard/";
-import { useDispatch, useSelector } from "react-redux";
-import Router, { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import Router from "next/router";
 import { LOAD_PROJECT_REQUEST } from "../../reducers/project";
 import wrapper from "../../store/configureStore";
 import { END } from "redux-saga";
-import { LOAD_MY_INFO_REQUEST } from "../../reducers/user";
 import axios from "axios";
+import { LOAD_MY_INFO_REQUEST } from "../../reducers/user";
 
 const Progress = styled.div`
   width: 50%;
@@ -85,8 +85,6 @@ const ProgressBox = styled.div`
 `;
 
 const ProjectManage = () => {
-  const dispatch = useDispatch();
-  const router = useRouter();
   const { me } = useSelector((state) => state.user);
   const { projectInfo } = useSelector((state) => state.project);
   const [visible, setVisible] = useState(false);
@@ -100,6 +98,7 @@ const ProjectManage = () => {
     }
     window.addEventListener("scroll", onVisible);
   }, []);
+
   useEffect(() => {
     if (!me) {
       Router.replace("/");
@@ -142,22 +141,23 @@ const ProjectManage = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async (context) => {
+    console.log(context.query);
     console.log("SSR시작");
     const cookie = context.req ? context.req.headers.cookie : "";
     axios.defaults.headers.Cookie = "";
     if (context.req && cookie) {
       axios.defaults.headers.Cookie = cookie;
     }
-
     context.store.dispatch({
       type: LOAD_MY_INFO_REQUEST,
     });
     context.store.dispatch({
       type: LOAD_PROJECT_REQUEST,
-      data: context.query.id,
+      data: parseInt(context.query.id, 10),
     });
-    context.store.dispatch(END);
 
+    context.store.dispatch(END);
+    console.log("11");
     console.log("SSR끝");
     await context.store.sagaTask.toPromise();
     if (!context.store.getState().user.me) {

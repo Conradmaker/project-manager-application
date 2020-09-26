@@ -4,7 +4,7 @@ import useInput from "../../hooks/useInput";
 import { ADD_SCHEDULE_REQUEST } from "../../reducers/manage";
 import { Btn, BtnBox, Form, Input, Summary } from "../LoginForm";
 
-export default function SignupForm({ close }) {
+export default function ScheduleForm({ close }) {
   const dispatch = useDispatch();
   const { projectInfo } = useSelector((state) => state.project);
   const [title, onChangeTitle] = useInput("");

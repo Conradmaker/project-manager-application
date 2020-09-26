@@ -57,9 +57,12 @@ export const Visual = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  h1 {
+  img {
     margin-top: 60px;
+    align-self: center;
+  }
+  h1 {
+    margin-top: 220px;
     align-self: center;
 
     font-size: 55px;
@@ -91,9 +94,7 @@ export default function Banner() {
     <div>
       <Positioner />
       <Visual>
-        <h1>
-          <img src={LOGO} alt="로고" height="200px" />
-        </h1>
+        <img src={LOGO} alt="로고" height="200px" />
         <BtnWrapper>
           <Link href="/list">
             <a>
@@ -107,7 +108,7 @@ export default function Banner() {
           </Link>
           {me ? (
             me.ProjectId ? (
-              <Link href={{ pathname: `/project/${me.ProjectId}` }}>
+              <Link href={`http://localhost:3000/project/${me.ProjectId}`}>
                 <a>
                   <div>
                     <i>

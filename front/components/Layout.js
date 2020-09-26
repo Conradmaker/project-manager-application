@@ -6,10 +6,12 @@ import Link from "next/link";
 import PopForm from "./PopForm";
 import useInput from "../hooks/useInput";
 import { useDispatch, useSelector } from "react-redux";
-import { LOG_OUT_REQUEST } from "../reducers/user";
+import { LOAD_MY_INFO_REQUEST, LOG_OUT_REQUEST } from "../reducers/user";
 import Router from "next/router";
-import { SEARCH_PROJECT_REQUEST } from "../reducers/project";
 import LOGO from "../assets/img/logo2.png";
+import { END } from "redux-saga";
+import axios from "axios";
+import wrapper from "../store/configureStore";
 
 const Search = styled.div`
   width: 1100px;
@@ -181,7 +183,7 @@ const Header = styled.header`
     `}
 `;
 
-export default function Layout({ visible, children }) {
+function Layout({ visible, children }) {
   const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
   const [loginOpen, setLoginOpen] = useState(false);
@@ -317,3 +319,21 @@ export default function Layout({ visible, children }) {
     </>
   );
 }
+export const getServerSideProps = wrapper.getServerSideProps(
+  async (context) => {
+    console.log("SSR시작");
+    const cookie = context.req ? context.req.headers.cookie : "";
+    axios.defaults.headers.Cookie = "";
+    if (context.req && cookie) {
+      axios.defaults.headers.Cookie = cookie;
+    }
+    context.store.dispatch({
+      type: LOAD_MY_INFO_REQUEST,
+    });
+    context.store.dispatch(END);
+    console.log("SSR끝");
+    await context.store.sagaTask.toPromise();
+  }
+);
+
+export default Layout;
