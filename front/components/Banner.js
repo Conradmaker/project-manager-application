@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import IMG from "../assets/img/1.png";
+import IMG from "../assets/img/1.jpg";
 import { FaTools } from "react-icons/fa";
 import { RiTeamFill } from "react-icons/ri";
 import Link from "next/link";

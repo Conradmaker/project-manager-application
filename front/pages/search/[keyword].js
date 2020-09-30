@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import IMG from "../../assets/img/3.png";
+import IMG from "../../assets/img/3.jpg";
 import { Positioner, Visual } from "../../components/Banner";
 import Layout from "../../components/Layout";
 import styled, { keyframes } from "styled-components";
